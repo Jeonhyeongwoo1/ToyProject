@@ -152,7 +152,6 @@ public class CharacterController : MonoBehaviour
         }
 
         _CurRot = Vector3.Lerp(_CurRot, _Rotation.normalized, Time.deltaTime * 10f);
-        _CurMove = Vector3.Lerp(_CurMove, _MoveDir.normalized, Time.deltaTime * 10f);
         _CurWheel = Mathf.Lerp(_CurWheel, _ZoomInputValue, 0.1f);
     }
 
