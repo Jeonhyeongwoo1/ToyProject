@@ -122,8 +122,9 @@ public class CharacterController : MonoBehaviour
             dir = _TPCam.rig.TransformDirection(_MoveDir);
         }
 
+
         Vector3 move = dir * _MOption.movingSpeed;
-        _Rigidbody.velocity = new Vector3(move.x, _Rigidbody.velocity.y, move.y);
+        _Rigidbody.velocity = new Vector3(move.x, _Rigidbody.velocity.y, move.z);
 
     }
 
@@ -142,12 +143,12 @@ public class CharacterController : MonoBehaviour
         _Rotation.y = y;
         _Rotation.x = -x;
 
-        _MoveDir.y = v;
+        _MoveDir.z = v;
         _MoveDir.x = h;
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            _MoveDir.y *= 2f;
+            _MoveDir.z *= 2f;
             _MoveDir.x *= 2f;
         }
 
@@ -234,7 +235,7 @@ public class CharacterController : MonoBehaviour
 
     void UpdateAnimationParam()
     {
-        _Animator.SetFloat("moveY", _MoveDir.y);
+        _Animator.SetFloat("moveY", _MoveDir.z);
         _Animator.SetFloat("moveX", _MoveDir.x);
     }
 
