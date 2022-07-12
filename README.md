@@ -37,6 +37,7 @@
 ### UI Menu 1
 ![ezgif com-gif-maker (9)](https://user-images.githubusercontent.com/50667930/178418460-4c36a85d-b090-400a-8842-fee109b70fa1.gif)
 
-
+### UI Menu 2
+![ezgif com-gif-maker (10)](https://user-images.githubusercontent.com/50667930/178418763-99f5f3db-2278-4769-8f43-49bc90fd22e4.gif)
 
 
