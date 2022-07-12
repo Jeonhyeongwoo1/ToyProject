@@ -22,3 +22,8 @@
 ### A*(Priority queue, List)
 
 ![ezgif com-gif-maker (6)](https://user-images.githubusercontent.com/50667930/178417096-d38f58e6-defb-48b2-829b-1373bf99df0c.gif)
+
+
+## BSP(Binary Space Partitioning)
+
+![ezgif com-gif-maker (7)](https://user-images.githubusercontent.com/50667930/178417886-09f8fd78-0d30-448c-a7d9-b7bd820326f8.gif)
