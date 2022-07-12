@@ -14,3 +14,11 @@
 ### Create Maze(Binary Tree)
 
 ![ezgif com-gif-maker (4)](https://user-images.githubusercontent.com/50667930/178416075-8b4addde-7a04-408d-865d-4ff0fc6458f7.gif)
+
+### DFS(Stack)
+
+![ezgif com-gif-maker (5)](https://user-images.githubusercontent.com/50667930/178416640-3b379626-83f2-484c-9413-868226daa791.gif)
+
+### A*(Priority queue, List)
+
+![ezgif com-gif-maker (6)](https://user-images.githubusercontent.com/50667930/178417096-d38f58e6-defb-48b2-829b-1373bf99df0c.gif)
