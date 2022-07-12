@@ -1,8 +1,8 @@
 # ToyProject
 
 ## field of view 
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/50667930/178415132-1499fca3-f740-40d1-aebd-87540301afe8.gif)
 
-https://user-images.githubusercontent.com/50667930/178414207-1365366a-ad43-44bc-8ef1-57dfbda4e84b.mov
 
 ## boid 2D
 
