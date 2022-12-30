@@ -167,12 +167,19 @@ public class ProceduralDungeon : MonoBehaviour
         lineRenderer.SetPosition(1, to);
     }
 
-    void Start()
+    IEnumerator StartDungeon()
     {
         DrawRectangle(0, 0, dungeonTree.mapSize.x, dungeonTree.mapSize.y, rectanglePrefab);
         DivideTree(dungeonTree.root, 0);
+        yield return new WaitForSeconds(1f); 
         dungeonTree.root.roomSize = GenerateDungeon(dungeonTree.root, 0);
+        yield return new WaitForSeconds(1f); 
         DrawLoad(dungeonTree.root, 0);
+    }
+
+    void Start()
+    {
+       StartCoroutine(StartDungeon());
     }
 
 }

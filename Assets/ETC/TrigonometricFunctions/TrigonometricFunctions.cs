@@ -97,7 +97,7 @@ public class TrigonometricFunctions : MonoBehaviour
 
         if(semiCircelShoot)
         {
-            for (int i = 0; i <= 180; i += (int)degreeInterval)
+            for (int i = 0; i <= 90; i += (int)degreeInterval)
             {
                 GameObject b = Instantiate(bullet, transform.position, Quaternion.identity);
                 b.transform.position = bulletSpawner.position;

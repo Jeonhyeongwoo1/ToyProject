@@ -196,7 +196,11 @@ public class CharacterController : MonoBehaviour
         {
             _JumpCoolTime = _MOption.jumpCoolTime;
             _Rigidbody.AddForce(Vector3.up * _MOption.jumpForce, ForceMode.VelocityChange);
-            _Animator.SetTrigger("Jump");
+            if(_Animator != null)
+            {
+                _Animator.SetTrigger("Jump");
+            }
+           
         }
     }
 
@@ -235,6 +239,10 @@ public class CharacterController : MonoBehaviour
 
     void UpdateAnimationParam()
     {
+        if (_Animator == null)
+        {
+            return;
+        }
         _Animator.SetFloat("moveY", _MoveDir.z);
         _Animator.SetFloat("moveX", _MoveDir.x);
     }

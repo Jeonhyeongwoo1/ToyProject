@@ -34,7 +34,10 @@ public class PlayerController : MonoBehaviour
 
         Vector3 rotDir = _Rot.normalized * rotationSpeed;
         // tpRig.rotation = Quaternion.AngleAxis(_AxisY, Vector3.up) * tpRig.rotation;
-        tpRig.rotation = Quaternion.Euler(tpRig.eulerAngles + rotDir);
+        if (tpRig != null)
+        {
+            tpRig.rotation = Quaternion.Euler(tpRig.eulerAngles + rotDir);
+        }
 
         if (_IsJump)
         {
@@ -60,7 +63,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(_CurJumpTime <= 0)
+            if (_CurJumpTime <= 0)
             {
                 _IsJump = true;
             }

@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7040ea93bb7f540d7a58384dc22419fc, type: 3}
+  m_Name: BotConfigObject
+  m_EditorClassIdentifier: 
+  commonBotData:
+    highBotData:
+      botRawData:
+        level: 1
+      botDecisionTypeDataList:
+      - selectDecisionProcessDuration: 0
+        decisionType: 0
+        botWeightDecisionTypeList:
+        - use: 1
+          decisionType: 0
+          isOppsite: 0
+          delay: 0
+    normalBotData:
+      botRawData:
+        level: 2
+      botDecisionTypeDataList:
+      - selectDecisionProcessDuration: 0
+        decisionType: 0
+        botWeightDecisionTypeList:
+        - use: 1
+          decisionType: 0
+          isOppsite: 0
+          delay: 0
+        - use: 1
+          decisionType: 1
+          isOppsite: 0
+          delay: 0
+    lowBotData:
+      botRawData:
+        level: 3
+      botDecisionTypeDataList:
+      - selectDecisionProcessDuration: 0
+        decisionType: 0
+        botWeightDecisionTypeList: []

@@ -20,7 +20,7 @@ namespace Maze
 
         public void StartAstartAlgorithm()
         {
-            grid.starAlgorithm();
+           grid.starAlgorithm();
         }
 
     }
