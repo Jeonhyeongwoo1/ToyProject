@@ -30,6 +30,7 @@ namespace ItemInventory
         [SerializeField] private Text _CurrentIndexText;
         [SerializeField] private Button _ItemListMoveUpButton;
         [SerializeField] private Button _ItemListMoveDownButton;
+        [SerializeField] private DragableItem _DragableItem;
 
         private Vector3 _BeginMovePos = Vector3.zero;
         private Vector2 _OriginInventoryRectPos = Vector2.zero;
@@ -150,7 +151,14 @@ namespace ItemInventory
             Vector2 size = GetItemSlotSize();
             CreateItemSlot(size);
             DrawGrid(size);
+            SetItemData();
+            DragableItemInit(size);
             _CurItemListIndex.Value = 1;
+        }
+
+        private void DragableItemInit(Vector2 slotSize)
+        {
+            _DragableItem.Init(slotSize);
         }
 
         [Button]
@@ -160,6 +168,15 @@ namespace ItemInventory
             _ItemListParent.anchoredPosition = new Vector2(0, 396);
         }
 
+        private void SetItemData()
+        {
+            for (int i = 0; i < _ItemTestData.list.Count; i++)
+            {
+                ItemTestData.TestData data = _ItemTestData.list[i];
+                _ItemList[i].Init(data);
+            }   
+        }
+
         private void CreateItemSlot(Vector2 slotSize)
         {
             for (int i = 0; i < row; i++)
@@ -167,7 +184,8 @@ namespace ItemInventory
                 for (int j = 0; j < column; j++)
                 {
                     ItemObject item = Instantiate(_ItemObjectPrefab, Vector3.zero, Quaternion.identity, _ItemListParent);
-                    item.Init(slotSize);
+                    item.name = "Item : " + i + " : " + j;
+                    item.SetDragableItem(_DragableItem);
                     _ItemList.Add(item);
                 }
             }
@@ -255,6 +273,14 @@ namespace ItemInventory
             _ItemListMoveDownButton.OnClickAsObservable()
                                     .Subscribe((v) => OnMoveDownItemSlotList())
                                     .AddTo(gameObject);
+
+            Observable.EveryUpdate()
+                        .Where((v) => Input.GetKeyDown(KeyCode.Alpha1))
+                        .Subscribe((v) =>
+                        {
+                            OnItemCountChanged();
+                        })
+                        .AddTo(gameObject);
         }
     }
 }
