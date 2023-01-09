@@ -11,9 +11,14 @@ public enum ItemType
     ACC
 }
 
-public class BaseItem : MonoBehaviour
+namespace ItemInventory
 {
-    public ItemType ItemType => itemType;
+    public class BaseItem
+    {
+        public ItemData ItemData => _ItemData;
 
-    [SerializeField] protected ItemType itemType;
+        [SerializeField] private ItemData _ItemData;
+
+        public BaseItem(ItemData itemData) => _ItemData = itemData;
+    }
 }

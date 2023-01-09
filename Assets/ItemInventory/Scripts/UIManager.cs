@@ -7,7 +7,7 @@ namespace ItemInventory
 {
     public class UIManager : Singleton<UIManager>
     {
-        [SerializeField] private Inventory _Inventroy;
+        [SerializeField] private InventoryUI _Inventroy;
 
         private void Start()
         {

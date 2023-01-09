@@ -113,10 +113,19 @@ namespace ItemInventory
                         });
 
             eventTrigger.OnDropAsObservable()
-                        .Subscribe((v) => ChangeItemSlotData(v.pointerDrag));
+                        .Subscribe((v) => OnChangeItemSlotData(v.pointerDrag));
+
+            this.UpdateAsObservable()
+                .Where((v)=> Input.GetMouseButtonDown(1))
+                .Subscribe((v)=> OnUseItem());
         }
 
-        private void ChangeItemSlotData(GameObject pointerDragObject)
+        private void OnUseItem()
+        {
+
+        }
+
+        private void OnChangeItemSlotData(GameObject pointerDragObject)
         {
             ItemObject draggedItem = pointerDragObject.GetComponent<ItemObject>();
             var itemData = draggedItem.GetItemData();
