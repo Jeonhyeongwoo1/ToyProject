@@ -8,7 +8,7 @@ using System;
 
 namespace ItemInventory
 {
-    public class ItemObject : MonoBehaviour
+    public class ItemSlotUI : MonoBehaviour
     {
         [SerializeField] private Image _ItemImage;
         [SerializeField] private Text _CountText;
@@ -127,7 +127,7 @@ namespace ItemInventory
 
         private void OnChangeItemSlotData(GameObject pointerDragObject)
         {
-            ItemObject draggedItem = pointerDragObject.GetComponent<ItemObject>();
+            ItemSlotUI draggedItem = pointerDragObject.GetComponent<ItemSlotUI>();
             var itemData = draggedItem.GetItemData();
             if (itemData == null)
             {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public enum ItemType
 {
@@ -13,6 +14,7 @@ public enum ItemType
 
 namespace ItemInventory
 {
+    [Serializable]
     public class BaseItem
     {
         public ItemData ItemData => _ItemData;

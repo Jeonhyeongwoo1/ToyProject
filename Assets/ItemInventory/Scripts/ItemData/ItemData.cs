@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ItemInventory
 {
@@ -9,10 +10,12 @@ namespace ItemInventory
         public string Id => _Id;
         public string ItemName => _ItemName;
         public string Description => _Description;
+        public Sprite ItemSprite => _ItemSprite;
 
         [SerializeField] private string _Id;
         [SerializeField] private string _ItemName;
         [SerializeField] private string _Description;
+        [SerializeField] private Sprite _ItemSprite;
 
         public abstract void CreateItem();
     }

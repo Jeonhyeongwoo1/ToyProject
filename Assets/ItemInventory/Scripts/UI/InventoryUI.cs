@@ -15,25 +15,22 @@ namespace ItemInventory
         [OnValueChanged(nameof(OnItemSlotSizeChanged))]
         [Range(0, 1)]
         [SerializeField] private float _ItemSlotRatio = 1;
-        [SerializeField] private float _ContentPadding;
-        [SerializeField] private float _ContentSpace;
-        [SerializeField] private int row;
-        [SerializeField] private int column;
         [SerializeField] private int _ItemListCount;
 
-        [SerializeField] private ItemTestData _ItemTestData;
         [SerializeField] private RectTransform _InventoryHeaderTransform;
         [SerializeField] private RectTransform _ItemListParent;
         [SerializeField] private RectTransform _ItemListPanel;
-        [SerializeField] private ItemObject _ItemObjectPrefab;
+        [SerializeField] private ItemSlotUI _ItemObjectPrefab;
         [SerializeField] private Text _CurrentIndexText;
         [SerializeField] private Button _ItemListMoveUpButton;
         [SerializeField] private Button _ItemListMoveDownButton;
         [SerializeField] private Inventory _Inventory;
+        [SerializeField] private DragableItem _DragableItem;
+
 
         private Vector3 _BeginMovePos = Vector3.zero;
         private Vector2 _OriginInventoryRectPos = Vector2.zero;
-        
+        private List<ItemSlotUI> _ItemSlotUIList = new List<ItemSlotUI>();
         private ReactiveProperty<int> _CurItemListIndex = new ReactiveProperty<int>();
 
         public void Open()
@@ -84,7 +81,7 @@ namespace ItemInventory
         [Button]
         private void ChangeItemSlotList(bool isDown)
         {
-            if (_Inventory.ItemList.Count == 0)
+            if (_ItemSlotUIList.Count == 0)
             {
                 return;
             }
@@ -94,7 +91,9 @@ namespace ItemInventory
                 return;
             }
 
-            float height = _ItemListPanel.sizeDelta.y - _ContentPadding * (row / 2);
+            int row = InventoryData.Row;
+            float contentPadding = InventoryData.ContentPadding;
+            float height = _ItemListPanel.sizeDelta.y - contentPadding * (row / 2);
             bool isChangeNextItemList = height < _ItemListParent.sizeDelta.y;
 
             if (!isChangeNextItemList)
@@ -112,7 +111,7 @@ namespace ItemInventory
 
         private void OnItemSlotSizeChanged()
         {
-            if (_Inventory.ItemList.Count == 0)
+            if (_ItemSlotUIList.Count == 0)
             {
                 return;
             }
@@ -130,7 +129,10 @@ namespace ItemInventory
         {
             Vector2 rectSize = _ItemListPanel.rect.size;
             Vector2 itemContentSize = Vector2.zero;
-            float size = rectSize.x / column - _ContentPadding - _ContentSpace;
+            int column = InventoryData.Column;
+            float contentPadding = InventoryData.ContentPadding;
+            float contentSpace = InventoryData.ContentSpace;
+            float size = rectSize.x / column - contentPadding - contentSpace;
             itemContentSize.x = size;
             itemContentSize.y = size;
 
@@ -141,7 +143,7 @@ namespace ItemInventory
         [Button]
         private void OnItemSlotChanged()
         {
-            if (_Inventory.ItemList.Count != 0)
+            if (_ItemSlotUIList.Count != 0)
             {
                 DestoryItemList();
             }
@@ -149,8 +151,8 @@ namespace ItemInventory
             Vector2 size = GetItemSlotSize();
             CreateItemSlot(size);
             DrawGrid(size);
-            SetItemData();
-            _Inventory.DragableItemInit(size);
+            //SetItemData();
+            DragableItemInit(size);
             _CurItemListIndex.Value = 1;
         }
 
@@ -161,29 +163,33 @@ namespace ItemInventory
             _ItemListParent.anchoredPosition = new Vector2(0, 396);
         }
 
-        private void SetItemData()
+        public void SetDragableItem(ItemSlotUI item)
         {
-            for (int i = 0; i < _ItemTestData.list.Count; i++)
-            {
-                ItemTestData.TestData data = _ItemTestData.list[i];
-                _Inventory.ItemList[i].Init(data);
-            }
+            item.SetDragableItem(_DragableItem);
+        }
+
+        public void DragableItemInit(Vector2 slotSize)
+        {
+            _DragableItem.Init(slotSize);
         }
 
         private void CreateItemSlot(Vector2 slotSize)
         {
+            int row = InventoryData.Row;
+            int column = InventoryData.Column;
+            float contentSpace = InventoryData.ContentSpace;
             for (int i = 0; i < row; i++)
             {
                 for (int j = 0; j < column; j++)
                 {
-                    ItemObject item = Instantiate(_ItemObjectPrefab, Vector3.zero, Quaternion.identity, _ItemListParent);
+                    ItemSlotUI item = Instantiate(_ItemObjectPrefab, Vector3.zero, Quaternion.identity, _ItemListParent);
                     item.name = "Item : " + i + " : " + j;
-                    _Inventory.ItemList.Add(item);
-                    _Inventory.SetDragableItem(item);
+                    _ItemSlotUIList.Add(item);
+                    SetDragableItem(item);
                 }
             }
 
-            float height = (slotSize.y + _ContentSpace) * row + _ContentSpace;
+            float height = (slotSize.y + contentSpace) * row + contentSpace;
             Vector2 value = new Vector2(_ItemListParent.sizeDelta.x, height);
             _ItemListParent.sizeDelta = value;
             _ItemListCount = Mathf.CeilToInt(_ItemListParent.sizeDelta.y / _ItemListPanel.sizeDelta.y);
@@ -191,36 +197,43 @@ namespace ItemInventory
 
         private void DrawGrid(Vector2 slotSize)
         {
-            Vector2 startPos = new Vector2(slotSize.x * 0.5f + _ContentPadding, -slotSize.y * 0.5f - _ContentPadding);
+            float contentPadding = InventoryData.ContentPadding;
+            float contentSpace = InventoryData.ContentSpace;
+            Vector2 startPos = new Vector2(slotSize.x * 0.5f + contentPadding, -slotSize.y * 0.5f - contentPadding);
             int row = 0;
             int column = 0;
             float spaceX = 0;
             float spaceY = 0;
 
-            foreach (ItemObject item in _Inventory.ItemList)
+            foreach (ItemSlotUI item in _ItemSlotUIList)
             {
-                if (column == this.column)
+                if (column == InventoryData.Column)
                 {
                     spaceX = 0;
-                    spaceY -= _ContentSpace;
+                    spaceY -= contentSpace;
                     column = 0;
                     row++;
                 }
 
-                float sizeX = slotSize.x * column + _ContentPadding + spaceX;
-                float sizeY = slotSize.y * row * -1 - _ContentPadding + spaceY;
+                float sizeX = slotSize.x * column + contentPadding + spaceX;
+                float sizeY = slotSize.y * row * -1 - contentPadding + spaceY;
                 RectTransform rect = item.GetComponent<RectTransform>();
                 rect.sizeDelta = slotSize;
                 rect.anchoredPosition = startPos + new Vector2(sizeX, sizeY);
 
                 column++;
-                spaceX += _ContentSpace;
+                spaceX += contentSpace;
             }
         }
 
         private void DestoryItemList()
         {
-            _Inventory.DestoryItemList();
+            foreach (ItemSlotUI item in _ItemSlotUIList)
+            {
+                Destroy(item.gameObject);
+            }
+
+            _ItemSlotUIList.Clear();
         }
 
         private void Start()

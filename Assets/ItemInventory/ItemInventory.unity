@@ -564,10 +564,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ItemSlotRatio: 1
-  _ContentPadding: 5
-  _ContentSpace: 10
-  row: 12
-  column: 6
   _ItemListCount: 0
   _ItemTestData: {fileID: 11400000, guid: 1727277d1cc1c46da8fb02b8273dd056, type: 2}
   _InventoryHeaderTransform: {fileID: 468888062}
@@ -578,6 +574,7 @@ MonoBehaviour:
   _ItemListMoveUpButton: {fileID: 1026427875}
   _ItemListMoveDownButton: {fileID: 1405545006}
   _Inventory: {fileID: 687996703}
+  _DragableItem: {fileID: 139195744}
 --- !u!1 &687996698
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,8 +696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc1cfcf70e08476c9ce59686d527c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ItemList: []
-  _DragableItem: {fileID: 139195744}
+  _InventoryUI: {fileID: 495428382}
 --- !u!1 &777814725 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9133254221670334554, guid: 9deabb105a18a4391868b539c5fff4da, type: 3}
@@ -832,7 +828,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ebc122a34564d469ca3d2d4d837729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Inventroy: {fileID: 495428382}
+  _Inventory: {fileID: 687996703}
+  _InventroyUI: {fileID: 495428382}
+  _InventoryConfigData: {fileID: 11400000, guid: 7d3675519e1ba47ceac4c4a815b4cc2d, type: 2}
+  _TestItemData:
+  - {fileID: 11400000, guid: afba11bf615ae494da0eaca4c09b7647, type: 2}
+  - {fileID: 11400000, guid: afba11bf615ae494da0eaca4c09b7647, type: 2}
 --- !u!1 &1026427873
 GameObject:
   m_ObjectHideFlags: 0

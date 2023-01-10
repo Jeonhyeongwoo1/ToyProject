@@ -10,7 +10,7 @@ namespace ItemInventory
 
         public EquipementItem(EquipmentData equipmentData) : base(equipmentData)
         {
-
+            this.equipmentData = equipmentData;
         }
     }
 }

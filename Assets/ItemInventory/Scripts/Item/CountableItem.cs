@@ -2,7 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CountableItem : MonoBehaviour
+namespace ItemInventory
 {
+    public class CountableItem : BaseItem
+    {
+        public CountableItemData countableItemData { get; private set; }
 
+        public CountableItem(CountableItemData countableItemData) : base(countableItemData)
+        {
+            this.countableItemData = countableItemData;
+            curAmount = countableItemData.Count;
+        }
+
+        public int MaxAmount => maxAmount;
+        public int CurAmount => curAmount;
+
+        private int maxAmount = 100;
+        private int minAmount = 1;
+        private int curAmount;
+
+        public void AddItem(CountableItemData countableItemData)
+        { 
+            this.countableItemData = countableItemData;
+        }
+
+        public void AddAmount(int amount)
+        {
+            if (amount <= 0 || curAmount >= maxAmount)
+            {
+                return;
+            }
+
+            curAmount += amount;
+        }
+    }
 }
