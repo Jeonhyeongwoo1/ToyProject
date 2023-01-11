@@ -42,55 +42,91 @@ namespace ItemInventory
                                 -아이템 추가 불가능(팝업창 띄우기?)
                 */
 
-                bool isAddItem = false;
                 for (int i = 0; i < _ItemArray.Length; i++)
                 {
                     CountableItem item = _ItemArray[i] as CountableItem;
                     if (item == null)
                     {
-                        continue;
+                        //새롭게 아이템 추가
+                        int index = GetEmptyItemIndex();
+                        if (index == -1)
+                        {
+                            //Popup
+                            Debug.Log("There isn't empty item");
+                            break;
+                        }
+
+                        _ItemArray[index] = new CountableItem(countableItemData);
+                        UpdateSlotUI(index);
+                        break;
                     }
 
-                    if (item.countableItemData.Id == countableItemData.Id)
+                    if (item.Id == countableItemData.Id)
                     {
                         int count = item.CurAmount + countableItemData.Count;
                         if (count > item.MaxAmount)
                         {
-                            //새롭게 아이템 추가
-                            int index = GetEmptyItemIndex();
-                            if (index == -1)
-                            {
-                                Debug.Log("There isn't empty item");
-                                break;
-                            }
-
-                            BaseItem baseItem = new BaseItem(countableItemData);
-                            _ItemArray[index] = baseItem;
-                            isAddItem = true;
-                            break;
+                            continue;
                         }
                         else
                         {
                             //해당 아이템에 추가
                             item.AddAmount(countableItemData.Count);
-                            isAddItem = true;
+                            UpdateSlotUI(i);
                             break;
                         }
                     }
                 }
+            }
+            else if (itemData is EquipmentData equipmentData)
+            {
+                /*
+                    *수량이 없기 때문에 빈 슬롯이 존재하면 넣기만 하면된다.
+                */
 
-                if (!isAddItem)
+                for (int i = 0; i < _ItemArray.Length; i++)
                 {
-                    //새롭게 아이템 추가
-                    int index = GetEmptyItemIndex();
-                    if (index == -1)
+                    EquipementItem item = _ItemArray[i] as EquipementItem;
+                    if (item == null)
                     {
-                        Debug.Log("There isn't empty item");
-                        return;
+                        _ItemArray[i] = new EquipementItem(equipmentData);
+                        UpdateSlotUI(i);
+                        break;
                     }
+                }
+            }
+        }
 
-                    BaseItem item = new BaseItem(countableItemData);
-                    _ItemArray[index] = item;
+        private void UpdateSlotUI(int index)
+        {
+            BaseItem baseItem = _ItemArray[index];
+
+            if (baseItem != null)
+            {
+                _InventoryUI.SetItemIcon(index, baseItem.ItemData.ItemSprite);
+
+                if (baseItem is CountableItem countableItem)
+                {
+                    _InventoryUI.SetCount(index, countableItem.CurAmount);
+                }
+                else if (baseItem is EquipementItem equipementItem)
+                {
+                    _InventoryUI.SetItemLevel(index, equipementItem.Level);
+                }
+            }
+            else
+            {
+                //Remove   
+            }
+        }
+
+        private void RemoveItemData(ItemData itemData, int amount = 1)
+        {
+            if (itemData is CountableItemData countableItemData)
+            {
+                for (int i = 0; i < _ItemArray.Length; i++)
+                {
+
                 }
             }
         }

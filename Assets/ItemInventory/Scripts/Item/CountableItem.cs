@@ -6,7 +6,7 @@ namespace ItemInventory
 {
     public class CountableItem : BaseItem
     {
-        public CountableItemData countableItemData { get; private set; }
+        private CountableItemData countableItemData { get; set; }
 
         public CountableItem(CountableItemData countableItemData) : base(countableItemData)
         {
@@ -14,6 +14,12 @@ namespace ItemInventory
             curAmount = countableItemData.Count;
         }
 
+        public string Id => countableItemData.Id;
+        public string ItemName => countableItemData.ItemName;
+        public string Description => countableItemData.Description;
+        public int Level => countableItemData.Level;
+        public Sprite ItemSprite => countableItemData.ItemSprite;
+        
         public int MaxAmount => maxAmount;
         public int CurAmount => curAmount;
 
@@ -22,7 +28,7 @@ namespace ItemInventory
         private int curAmount;
 
         public void AddItem(CountableItemData countableItemData)
-        { 
+        {
             this.countableItemData = countableItemData;
         }
 

@@ -47,6 +47,43 @@ namespace ItemInventory
                         .AddTo(gameObject);
         }
 
+        ///ItemData와 직접적인 접촉은 없도록 한다.
+        public void SetItemIcon(int index, Sprite sprite)
+        {
+            ItemSlotUI slotUI = _ItemSlotUIList[index];
+            if (slotUI == null)
+            {
+                Debug.Log("There isn't slot UI");
+                return;
+            }
+
+            slotUI.SetIcon(sprite);
+        }
+
+        public void SetCount(int index, int count)
+        {
+            ItemSlotUI slotUI = _ItemSlotUIList[index];
+            if (slotUI == null)
+            {
+                Debug.Log("There isn't slot UI");
+                return;
+            }
+
+            slotUI.SetCount(count);
+        }
+
+        public void SetItemLevel(int index, int level)
+        {
+            ItemSlotUI slotUI = _ItemSlotUIList[index];
+            if (slotUI == null)
+            {
+                Debug.Log("There isn't slot UI");
+                return;
+            }
+
+            slotUI.SetItemLevel(level);
+        }
+
         private IEnumerator TransformScaleCor(IObserver<Vector3> observer, bool isUp)
         {
             float elapsed = 0;

@@ -21,6 +21,10 @@ namespace ItemInventory
         public bool HasItem() => _ItemData != null;
         public ItemTestData.TestData GetItemData() => _ItemData;
 
+        public void SetIcon(Sprite sprite) => _ItemImage.sprite = sprite;
+        public void SetCount(int count) => _CountText.text = count.ToString();
+        public void SetItemLevel(int level) => _ItemLevelText.text = level.ToString();
+
         public void SetItemData(ItemTestData.TestData itemData)
         {
             if (itemData == null)
@@ -116,8 +120,8 @@ namespace ItemInventory
                         .Subscribe((v) => OnChangeItemSlotData(v.pointerDrag));
 
             this.UpdateAsObservable()
-                .Where((v)=> Input.GetMouseButtonDown(1))
-                .Subscribe((v)=> OnUseItem());
+                .Where((v) => Input.GetMouseButtonDown(1))
+                .Subscribe((v) => OnUseItem());
         }
 
         private void OnUseItem()
