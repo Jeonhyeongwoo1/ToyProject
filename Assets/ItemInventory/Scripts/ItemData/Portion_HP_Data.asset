@@ -15,6 +15,7 @@ MonoBehaviour:
   _Id: HP_Portion
   _ItemName: HP
   _Description: "\uCCB4\uB825"
-  _ItemSprite: {fileID: 0}
+  _Level: 0
+  _ItemSprite: {fileID: 21300000, guid: 04e0e7ddd78404d699ef8a2a274a7a6e, type: 3}
   _Count: 3
   _Value: 0

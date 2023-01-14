@@ -47,6 +47,23 @@ namespace ItemInventory
                         .AddTo(gameObject);
         }
 
+        public void RemoveItem(int index)
+        {
+            _Inventory.RemoveItemData(index);
+        }
+
+        public void RemoveSlotUI(int index)
+        {
+            ItemSlotUI slotUI = _ItemSlotUIList[index];
+            if (slotUI == null)
+            {
+                Debug.Log("There isn't slot UI");
+                return;
+            }
+
+            slotUI.RemoveItem();
+        }
+
         ///ItemData와 직접적인 접촉은 없도록 한다.
         public void SetItemIcon(int index, Sprite sprite)
         {
@@ -200,14 +217,28 @@ namespace ItemInventory
             _ItemListParent.anchoredPosition = new Vector2(0, 396);
         }
 
-        public void SetDragableItem(ItemSlotUI item)
+        public void SetDragableItem(ItemSlotUI itemSlotUI)
         {
-            item.SetDragableItem(_DragableItem);
+            itemSlotUI.SetDragableItem(_DragableItem);
         }
 
         public void DragableItemInit(Vector2 slotSize)
         {
             _DragableItem.Init(slotSize);
+        }
+
+        public void SwapItem(ItemSlotUI swapItemSlotUI, ItemSlotUI originItemSlotUI)
+        {
+            int swapItemSlotUIIndex = _ItemSlotUIList.FindIndex((v) => v == swapItemSlotUI);
+            int originItemSlotUIIndex = _ItemSlotUIList.FindIndex((v) => v == originItemSlotUI);
+
+            _Inventory.SwapItem(originItemSlotUIIndex, swapItemSlotUIIndex);
+        }
+
+        public void UseItem(ItemSlotUI itemSlotUI)
+        {
+            int index = _ItemSlotUIList.FindIndex((v) => v == itemSlotUI);
+            _Inventory.UseItem(index);
         }
 
         private void CreateItemSlot(Vector2 slotSize)
@@ -221,6 +252,7 @@ namespace ItemInventory
                 {
                     ItemSlotUI item = Instantiate(_ItemObjectPrefab, Vector3.zero, Quaternion.identity, _ItemListParent);
                     item.name = "Item : " + i + " : " + j;
+                    item.Init(this);
                     _ItemSlotUIList.Add(item);
                     SetDragableItem(item);
                 }

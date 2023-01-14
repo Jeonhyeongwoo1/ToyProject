@@ -35,6 +35,16 @@ namespace ItemInventory
                                 _Inventory.AddItemData(data);
                             }
                         });
+
+            Observable.EveryUpdate()
+                        .Where((v) => Input.GetKeyDown((KeyCode.Alpha3)))
+                        .Subscribe((v) =>
+                        {
+                            for (int i = 0; i < _TestItemData.Count; i++)
+                            {
+                                _InventroyUI.RemoveItem(i);
+                            }
+                        });
         }
     }
 }

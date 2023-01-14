@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Id: MP_Portion
   _ItemName: MP
-  _Description: "\uCCB4\uB825"
-  _Count: 0
+  _Description: "\uB9C8\uB825"
+  _Level: 0
+  _ItemSprite: {fileID: 21300000, guid: f040a7875298547ce9afa62ca067f927, type: 3}
+  _Count: 3
   _Value: 0

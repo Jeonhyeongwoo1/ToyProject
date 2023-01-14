@@ -19,33 +19,26 @@ namespace ItemInventory
         private void Start()
         {
             _ItemArray = new BaseItem[InventoryData.Row * InventoryData.Column];
+        }
 
+        public void SwapItem(int originItemIndex, int swapItemIndex)
+        {
+            BaseItem temp = null;
+            temp = _ItemArray[originItemIndex];
+            _ItemArray[originItemIndex] = _ItemArray[swapItemIndex];
+            _ItemArray[swapItemIndex] = temp;
+
+            UpdateSlotUI(originItemIndex);
+            UpdateSlotUI(swapItemIndex);
         }
 
         public void AddItemData(ItemData itemData)
         {
             if (itemData is CountableItemData countableItemData)
             {
-                /*
-                1.해당 아이템이 존재하는 슬롯이 있는지 확인
-                    -존재한다면
-                        해당 아이템의 갯수와 새롭게 아이템이 들어가면 MAX인지 확인
-                            -MAX라면 
-                                새롭게 아이템을 추가
-                            -MAX가 아니라면
-                                해당 아이템에 추가
-                    -존재하지 않는다면
-                        비어있는 슬롯을 찾는다.
-                            -비어있는 슬롯이 존재한다면
-                                -해당 슬롯에 새롭게 아이템 추가
-                            -비어있는 슬롯이 없다면
-                                -아이템 추가 불가능(팝업창 띄우기?)
-                */
-
                 for (int i = 0; i < _ItemArray.Length; i++)
                 {
-                    CountableItem item = _ItemArray[i] as CountableItem;
-                    if (item == null)
+                    if (_ItemArray[i] == null)
                     {
                         //새롭게 아이템 추가
                         int index = GetEmptyItemIndex();
@@ -61,6 +54,7 @@ namespace ItemInventory
                         break;
                     }
 
+                    CountableItem item = _ItemArray[i] as CountableItem;
                     if (item.Id == countableItemData.Id)
                     {
                         int count = item.CurAmount + countableItemData.Count;
@@ -86,8 +80,7 @@ namespace ItemInventory
 
                 for (int i = 0; i < _ItemArray.Length; i++)
                 {
-                    EquipementItem item = _ItemArray[i] as EquipementItem;
-                    if (item == null)
+                    if (_ItemArray[i] == null)
                     {
                         _ItemArray[i] = new EquipementItem(equipmentData);
                         UpdateSlotUI(i);
@@ -100,9 +93,14 @@ namespace ItemInventory
         private void UpdateSlotUI(int index)
         {
             BaseItem baseItem = _ItemArray[index];
-
             if (baseItem != null)
             {
+                // if(baseItem.ItemData == null)
+                // {
+                //     _InventoryUI.RemoveSlotUI(index);
+                //     return;
+                // }
+
                 _InventoryUI.SetItemIcon(index, baseItem.ItemData.ItemSprite);
 
                 if (baseItem is CountableItem countableItem)
@@ -117,25 +115,42 @@ namespace ItemInventory
             else
             {
                 //Remove   
+                _InventoryUI.RemoveSlotUI(index);
             }
         }
 
-        private void RemoveItemData(ItemData itemData, int amount = 1)
+        public void UseItem(int index, int amount = 1)
         {
-            if (itemData is CountableItemData countableItemData)
+            BaseItem baseItem = _ItemArray[index];
+            if (baseItem is CountableItem countableItem)
             {
-                for (int i = 0; i < _ItemArray.Length; i++)
-                {
+                bool isUse = countableItem.Use(amount);
 
+                if (countableItem.CurAmount == 0)
+                {
+                    RemoveItemData(index);
+                    return;
+                }
+
+                if (isUse)
+                {
+                    UpdateSlotUI(index);
                 }
             }
+        }
+
+        public void RemoveItemData(int index, int amount = 1)
+        {
+            _ItemArray[index] = null;
+
+            UpdateSlotUI(index);
         }
 
         private int GetEmptyItemIndex()
         {
             for (int i = 0; i < _ItemArray.Length; i++)
             {
-                if (_ItemArray[i].ItemData == null)
+                if (_ItemArray[i] == null)
                 {
                     return i;
                 }

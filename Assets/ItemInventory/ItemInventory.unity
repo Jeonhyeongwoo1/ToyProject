@@ -833,6 +833,7 @@ MonoBehaviour:
   _InventoryConfigData: {fileID: 11400000, guid: 7d3675519e1ba47ceac4c4a815b4cc2d, type: 2}
   _TestItemData:
   - {fileID: 11400000, guid: afba11bf615ae494da0eaca4c09b7647, type: 2}
+  - {fileID: 11400000, guid: 15e8b8e2662024fe98f9eeeff64239d7, type: 2}
 --- !u!1 &1026427873
 GameObject:
   m_ObjectHideFlags: 0

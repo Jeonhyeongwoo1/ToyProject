@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14a17034a11b42b4a9663b96ad92571, type: 3}
   m_Name: ArmortData
   m_EditorClassIdentifier: 
-  _Id: 
-  _ItemName: 
+  _Id: Amor
+  _ItemName: "\uC7A5\uBE44"
   _Description: 
-  _Durability: 0
-  _Value: 0
+  _Level: 3
+  _ItemSprite: {fileID: 21300000, guid: ef419fce13384654bab5cbf27232d640, type: 3}
+  _Durability: 33
+  _Value: 3

@@ -14,10 +14,19 @@ public enum ItemType
 
 namespace ItemInventory
 {
+    public interface Useable
+    {
+        bool Use(int amount = 1);
+    }
+
     [Serializable]
     public class BaseItem
     {
-        public ItemData ItemData => _ItemData;
+        public ItemData ItemData
+        {
+            get => _ItemData;
+            set => _ItemData = value;
+        }
 
         [SerializeField] private ItemData _ItemData;
 

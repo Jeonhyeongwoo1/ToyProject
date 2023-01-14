@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 using UniRx.Triggers;
-using System;
 
 namespace ItemInventory
 {
@@ -14,50 +13,27 @@ namespace ItemInventory
         [SerializeField] private Text _CountText;
         [SerializeField] private Text _ItemLevelText;
 
+        private InventoryUI _InventoryUI;
         private DragableItem _DragableItem;
         private Vector2 _OnBeginMousePos;
-        private ItemTestData.TestData _ItemData;
-
-        public bool HasItem() => _ItemData != null;
-        public ItemTestData.TestData GetItemData() => _ItemData;
+        private Sprite originSprite = null;
+        private bool OnMouseEnter = false;
 
         public void SetIcon(Sprite sprite) => _ItemImage.sprite = sprite;
         public void SetCount(int count) => _CountText.text = count.ToString();
         public void SetItemLevel(int level) => _ItemLevelText.text = level.ToString();
+        public bool HasItem() => _ItemImage.sprite != originSprite;
 
-        public void SetItemData(ItemTestData.TestData itemData)
+        public void Init(InventoryUI inventoryUI)
         {
-            if (itemData == null)
-            {
-                _CountText.gameObject.SetActive(false);
-                _ItemLevelText.gameObject.SetActive(false);
-                _ItemImage.sprite = null;
-                _ItemData = null;
-                return;
-            }
+            _InventoryUI = inventoryUI;
+        }
 
-            if (itemData.count == 0)
-            {
-                _CountText.gameObject.SetActive(false);
-            }
-            else
-            {
-                _CountText.text = itemData.count.ToString();
-                _CountText.gameObject.SetActive(true);
-            }
-
-            if (string.IsNullOrEmpty(itemData.level))
-            {
-                _ItemLevelText.gameObject.SetActive(false);
-            }
-            else
-            {
-                _ItemLevelText.text = "LV." + itemData.level;
-                _ItemLevelText.gameObject.SetActive(true);
-            }
-
-            _ItemImage.sprite = itemData.sprite;
-            _ItemData = itemData;
+        public void RemoveItem()
+        {
+            SetIcon(originSprite);
+            SetCount(0);
+            SetItemLevel(0);
         }
 
         public void SetDragableItem(DragableItem dragableItem)
@@ -65,13 +41,9 @@ namespace ItemInventory
             _DragableItem = dragableItem;
         }
 
-        public void Init(ItemTestData.TestData itemData)
-        {
-            SetItemData(itemData);
-        }
-
         private void Start()
         {
+            originSprite = _ItemImage.sprite;
             TryGetComponent<RectTransform>(out var rectTransform);
 
             ObservableEventTrigger eventTrigger = gameObject.AddComponent<ObservableEventTrigger>();
@@ -117,29 +89,38 @@ namespace ItemInventory
                         });
 
             eventTrigger.OnDropAsObservable()
-                        .Subscribe((v) => OnChangeItemSlotData(v.pointerDrag));
+                        .Subscribe((v) => OnDropItem(v.pointerDrag));
 
-            this.UpdateAsObservable()
-                .Where((v) => Input.GetMouseButtonDown(1))
-                .Subscribe((v) => OnUseItem());
+            eventTrigger.OnPointerEnterAsObservable()
+                        .Subscribe((v) => OnMouseEnter = true);
+
+            eventTrigger.OnPointerExitAsObservable()
+                        .Subscribe((v) => OnMouseEnter = false);
+
+            Observable.EveryUpdate()
+                        .Where((v) => Input.GetMouseButtonDown(1))
+                        .Where((v) => OnMouseEnter)
+                        .Subscribe((v) => OnUseItem());
         }
 
         private void OnUseItem()
         {
-
-        }
-
-        private void OnChangeItemSlotData(GameObject pointerDragObject)
-        {
-            ItemSlotUI draggedItem = pointerDragObject.GetComponent<ItemSlotUI>();
-            var itemData = draggedItem.GetItemData();
-            if (itemData == null)
+            if (!HasItem())
             {
                 return;
             }
 
-            draggedItem.SetItemData(_ItemData);
-            SetItemData(itemData);
+            _InventoryUI.UseItem(this);
+        }
+
+        private void OnDropItem(GameObject pointerDragObject)
+        {
+            ItemSlotUI draggedItem = pointerDragObject.GetComponent<ItemSlotUI>();
+            if (draggedItem != null)
+            {
+                _InventoryUI.SwapItem(this, draggedItem);
+            }
+
             _DragableItem.OnEndDrag();
         }
     }

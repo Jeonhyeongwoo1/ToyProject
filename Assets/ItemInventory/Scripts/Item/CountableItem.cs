@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ItemInventory
 {
-    public class CountableItem : BaseItem
+    public class CountableItem : BaseItem, Useable
     {
         private CountableItemData countableItemData { get; set; }
 
@@ -19,7 +19,7 @@ namespace ItemInventory
         public string Description => countableItemData.Description;
         public int Level => countableItemData.Level;
         public Sprite ItemSprite => countableItemData.ItemSprite;
-        
+
         public int MaxAmount => maxAmount;
         public int CurAmount => curAmount;
 
@@ -40,6 +40,17 @@ namespace ItemInventory
             }
 
             curAmount += amount;
+        }
+
+        public bool Use(int amount = 1)
+        {
+            if (curAmount == 0)
+            {
+                return false;
+            }
+            
+            curAmount -= amount;
+            return true;
         }
     }
 }
