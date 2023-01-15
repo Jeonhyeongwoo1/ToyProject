@@ -11,9 +11,9 @@ namespace ItemInventory
 
         [SerializeField] private float _Value;
 
-        public override void CreateItem()
+        public override BaseItem CreateItem()
         {
-            //return new PortionData(this);
+            return new PortionItem(this);
         }
     }
 }

@@ -20,9 +20,31 @@ namespace ItemInventory
         private bool OnMouseEnter = false;
 
         public void SetIcon(Sprite sprite) => _ItemImage.sprite = sprite;
-        public void SetCount(int count) => _CountText.text = count.ToString();
-        public void SetItemLevel(int level) => _ItemLevelText.text = level.ToString();
         public bool HasItem() => _ItemImage.sprite != originSprite;
+
+        public void SetCount(int count)
+        {
+            if (count == 0)
+            {
+                _CountText.gameObject.SetActive(false);
+                return;
+            }
+
+            _CountText.gameObject.SetActive(true);
+            _CountText.text = count.ToString();
+        }
+
+        public void SetItemLevel(int level)
+        {
+            if (level == 0)
+            {
+                _ItemLevelText.gameObject.SetActive(false);
+                return;
+            }
+
+            _ItemLevelText.gameObject.SetActive(true);
+            _ItemLevelText.text = "LV. " + level.ToString();
+        }
 
         public void Init(InventoryUI inventoryUI)
         {

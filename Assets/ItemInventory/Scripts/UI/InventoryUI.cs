@@ -9,8 +9,18 @@ using UnityEngine.UI;
 
 namespace ItemInventory
 {
+    public enum InventoryType
+    {
+        All,
+        Weapon,
+        Armor,
+        ACC,
+        Portion
+    }
+
     public class InventoryUI : MonoBehaviour
     {
+        public InventoryType InventoryType => _InventoryType;
 
         [OnValueChanged(nameof(OnItemSlotSizeChanged))]
         [Range(0, 1)]
@@ -27,7 +37,7 @@ namespace ItemInventory
         [SerializeField] private Inventory _Inventory;
         [SerializeField] private DragableItem _DragableItem;
 
-
+        private InventoryType _InventoryType = InventoryType.All;
         private Vector3 _BeginMovePos = Vector3.zero;
         private Vector2 _OriginInventoryRectPos = Vector2.zero;
         private List<ItemSlotUI> _ItemSlotUIList = new List<ItemSlotUI>();
@@ -99,6 +109,12 @@ namespace ItemInventory
             }
 
             slotUI.SetItemLevel(level);
+        }
+
+        public void ChangeInventoryType(InventoryType inventoryType)
+        {
+            _InventoryType = inventoryType;
+            _Inventory.ChangeInventoryType();
         }
 
         private IEnumerator TransformScaleCor(IObserver<Vector3> observer, bool isUp)

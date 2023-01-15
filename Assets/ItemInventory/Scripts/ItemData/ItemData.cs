@@ -19,6 +19,6 @@ namespace ItemInventory
         [SerializeField] private int _Level;
         [SerializeField] private Sprite _ItemSprite;
 
-        public abstract void CreateItem();
+        public abstract BaseItem CreateItem();
     }
 }
