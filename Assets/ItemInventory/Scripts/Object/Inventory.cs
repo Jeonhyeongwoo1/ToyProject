@@ -200,7 +200,6 @@ namespace ItemInventory
 
         private void UpdateSlotUI(int index)
         {
-            Debug.Log(index);
             BaseItem baseItem = _ViewItemArray[index];
             if (baseItem != null)
             {
@@ -264,6 +263,11 @@ namespace ItemInventory
             }
         }
 
+        private void ArrangeItemArray()
+        {
+            Array.Sort(_ItemArray, (a, b) => a == null ? -1 : 1);
+        }
+
         public void RemoveItemData(int index, int amount = 1)
         {
             BaseItem item = _ViewItemArray[index];
@@ -276,6 +280,7 @@ namespace ItemInventory
                 }
             }
 
+            ArrangeItemArray();
             UpdateViewItemArray();
             SetItemSlotData();
         //    UpdateSlotUI(index);
