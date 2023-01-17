@@ -6,7 +6,7 @@ namespace BattlePass
 {
     public class BattlePassTier
     {
-        public BattlePassTierData battlePassTierData;
+        public BattlePassTierData battlePassTierData { get; private set; }
 
         public BattlePassTier(BattlePassTierData battlePassTierData)
         {

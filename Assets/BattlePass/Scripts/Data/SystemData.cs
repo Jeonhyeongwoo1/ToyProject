@@ -15,13 +15,14 @@ namespace BattlePass
     public class BattlePassTierData
     {
         public int tier;
-        public BattlePassItemData battlePassItemData;
-        public bool isLock;
+        public BattlePassTierItemData freePassItemData;
+        public BattlePassTierItemData battlePassItemData;
     }
 
     [Serializable]
-    public class BattlePassItemData
+    public class BattlePassTierItemData
     {
+        public bool isLock;
         public Sprite itemSprite;
         public int itemValue;
     }

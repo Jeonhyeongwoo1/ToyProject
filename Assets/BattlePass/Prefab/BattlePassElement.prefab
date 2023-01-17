@@ -595,6 +595,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e3a76dabd1274e7cb66918549479ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _TierText: {fileID: 1005637702672942040}
+  _FreePassItemImage: {fileID: 1005637702903695173}
+  _FreePassItemValueText: {fileID: 1005637702595750701}
+  _FreePassBlockPanel: {fileID: 1005637703244422561}
+  _FreePassLockTransform: {fileID: 1005637702754590408}
+  _FreePassUnlockTransform: {fileID: 1005637703743809534}
+  _BattlePassItemImage: {fileID: 1005637702377437126}
+  _BattlePassItemValueText: {fileID: 1005637704347461926}
+  _BattlePassBlockPanel: {fileID: 1005637702506800967}
+  _BattlePassLockTransform: {fileID: 1005637703348784836}
+  _BattlePassUnlockTrasnform: {fileID: 1005637703718837806}
 --- !u!1 &1005637702903695175
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,7 +851,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1005637703244422561
 RectTransform:
   m_ObjectHideFlags: 0

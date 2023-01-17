@@ -9,8 +9,6 @@ namespace BattlePass
 {
     public class BattlePassPanel : MonoBehaviour
     {
-        [SerializeField] private int _CreateBattlePassElementCount;
-
         [SerializeField] private BattlePassElement _BattlePassElement;
         [SerializeField] private Transform _BattlePassContentTransform;
 
@@ -25,10 +23,25 @@ namespace BattlePass
 
         private List<BattlePassElement> _BattlePassElementList = new List<BattlePassElement>();
 
-        [Button]
-        private void CreateBattlePassElement()
+        public void UpdateBattlePassTier(int index, string tier)
         {
-            for (int i = 0; i < _CreateBattlePassElementCount; i++)
+            _BattlePassElementList[index]!.UpdateTier(tier);
+        }
+
+        public void UpdateBattlePassElementUI(int index, bool isLock, Sprite itemSprite, int itemValue)
+        {
+            _BattlePassElementList[index]!.UpdateBattlePassElementUI(isLock, itemSprite, itemValue);
+        }
+
+        public void UpdateFreePassElementUI(int index, bool isLock, Sprite itemSprite, int itemValue)
+        {
+            _BattlePassElementList[index]!.UpdateFreePassElementUI(isLock, itemSprite, itemValue);
+        }
+
+        [Button]
+        public void CreateBattlePassElement(int count)
+        {
+            for (int i = 0; i < count; i++)
             {
                 BattlePassElement element = Instantiate(_BattlePassElement, _BattlePassContentTransform);
                 _BattlePassElementList.Add(element);
