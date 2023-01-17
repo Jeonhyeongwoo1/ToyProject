@@ -38,6 +38,34 @@ namespace BattlePass
             _BattlePassElementList[index]!.UpdateFreePassElementUI(isLock, itemSprite, itemValue);
         }
 
+        public void UpdatePlayerGoodsUI(int star, int pearl, int gold, int diamond)
+        {
+            _StarText.text = star.ToString();
+            _PearlText.text = pearl.ToString();
+            _GoldText.text = gold.ToString();
+            _DiamondText.text = diamond.ToString();
+        }
+
+        public void UpdatStarText(string star)
+        {
+            _StarText.text = star;
+        }
+
+        public void UpdatePearlText(string pearl)
+        {
+            _PearlText.text = pearl;
+        }
+
+        public void UpdateGodText(string gold)
+        {
+            _GoldText.text = gold;
+        }
+
+        public void UpdateDiamondText(string diamond)
+        {
+            _DiamondText.text = diamond;
+        }
+
         [Button]
         public void CreateBattlePassElement(int count)
         {
@@ -49,7 +77,7 @@ namespace BattlePass
         }
 
         [Button]
-        private void ClearBattlePassElement()
+        public void ClearBattlePassElement()
         {
             for (int i = 0; i < _BattlePassElementList.Count; i++)
             {

@@ -1104,6 +1104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc3dcf82448a74cac9af189d0a1000b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UserData: {fileID: 11400000, guid: 22726194bed2e42f1b61c8302674021a, type: 2}
   _SystemData: {fileID: 11400000, guid: eb86445fe3411412984f0a6a79b58ba9, type: 2}
   _BattlePassPresenter: {fileID: 1472271539}
 --- !u!1 &516651944
