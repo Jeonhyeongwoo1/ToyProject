@@ -7,46 +7,38 @@ namespace BattlePass
 {
     public class BattlePassPresenter : MonoBehaviour
     {
-        public IntReactiveProperty star = new IntReactiveProperty();
-        public IntReactiveProperty pearl = new IntReactiveProperty();
-        public IntReactiveProperty gold = new IntReactiveProperty();
-        public IntReactiveProperty diamond = new IntReactiveProperty();
-
         [SerializeField] private BattlePassPanel _BattlePassPanel;
 
         private List<BattlePassTier> _BattlePassTierList = new List<BattlePassTier>();
-        private User _User;
 
         private void Start()
         {
-            star.Subscribe((v) => OnChangedStarValue(v))
-                .AddTo(gameObject);
+            // star.Subscribe((v) => OnChangedStarValue(v))
+            //     .AddTo(gameObject);
 
-            pearl.Subscribe((v) => OnChangedPearlValue(v))
-                .AddTo(gameObject);
+            // pearl.Subscribe((v) => OnChangedPearlValue(v))
+            //     .AddTo(gameObject);
 
-            gold.Subscribe((v) => OnChangedGoldValue(v))
-                .AddTo(gameObject);
+            // gold.Subscribe((v) => OnChangedGoldValue(v))
+            //     .AddTo(gameObject);
 
-            diamond.Subscribe((v) => OnChangedDaimondValue(v))
-                    .AddTo(gameObject);
+            // diamond.Subscribe((v) => OnChangedDaimondValue(v))
+            //         .AddTo(gameObject);
         }
 
-        public void InitUserData(UserData userData)
+        public void UpdateUserEXP(int exp)
         {
-            if (userData == null)
-            {
-                return;
-            }
-
-            _User = new User(userData);
-            UserGoodsData data = _User.userData.userGoodsData;
-            UpdateUserGoodsUI(data.star, data.pearl, data.gold, data.diamond);
+            UIManager.Instance.UpdateUserEXP(exp);
         }
 
-        private void UpdateUserGoodsUI(int star, int pearl, int gold, int diamond)
+        public void SetUserGoodsUI(int star, int pearl, int gold, int diamond)
         {
-            _BattlePassPanel.UpdatePlayerGoodsUI(star, pearl, gold, diamond);
+            _BattlePassPanel.UpdateUserGoodsUI(star, pearl, gold, diamond);
+        }
+
+        public void SetUserEXP(int tier, int curExp, int maxExp)
+        {
+            _BattlePassPanel.UpdateUserEXP(tier, curExp, maxExp);
         }
 
         public void CreateBattlePassElement(List<BattlePassTierData> battlePassTierDataList)
@@ -111,48 +103,49 @@ namespace BattlePass
                                                             , data.freePassItemData.itemValue);
         }
 
-        private void OnChangedStarValue(int value)
-        {
-            if (_User == null)
-            {
-                return;
-            }
+        // private void OnChangedStarValue(int value)
+        // {
+        //     if (_User == null)
+        //     {
+        //         return;
+        //     }
 
-            _BattlePassPanel.UpdatStarText(value.ToString());
-            _User.Star += value;
-        }
+        //     _BattlePassPanel.UpdatStarText(value.ToString());
+        //     _User.Star += value;
+        // }
 
-        private void OnChangedPearlValue(int value)
-        {
-            if (_User == null)
-            {
-                return;
-            }
+        // private void OnChangedPearlValue(int value)
+        // {
+        //     if (_User == null)
+        //     {
+        //         return;
+        //     }
 
-            _BattlePassPanel.UpdatePearlText(value.ToString());
-            _User.Pearl += value;
-        }
+        //     _BattlePassPanel.UpdatePearlText(value.ToString());
+        //     _User.Pearl += value;
+        // }
 
-        private void OnChangedGoldValue(int value)
-        {
-            if (_User == null)
-            {
-                return;
-            }
+        // private void OnChangedGoldValue(int value)
+        // {
+        //     if (_User == null)
+        //     {
+        //         return;
+        //     }
 
-            _BattlePassPanel.UpdateGodText(value.ToString());
-            _User.Gold += value;
-        }
+        //     _BattlePassPanel.UpdateGodText(value.ToString());
+        //     _User.Gold += value;
+        // }
 
-        private void OnChangedDaimondValue(int value)
-        {
-            if (_User == null)
-            {
-                return;
-            }
+        // private void OnChangedDaimondValue(int value)
+        // {
+        //     if (_User == null)
+        //     {
+        //         return;
+        //     }
 
-            _BattlePassPanel.UpdateDiamondText(value.ToString());
-            _User.Diamond += value;
-        }
+        //     _BattlePassPanel.UpdateDiamondText(value.ToString());
+        //     _User.Diamond += value;
+        // }
+
     }
 }

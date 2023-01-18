@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userGoodsData:
     star: 5
-    pearl: 0
-    gold: 10
+    pearl: 3
+    gold: 2
     diamond: 20
+  userEXPData:
+    tier: 1
+    curExp: 20

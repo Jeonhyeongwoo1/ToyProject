@@ -1069,9 +1069,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 513101804}
-  - component: {fileID: 513101805}
   m_Layer: 0
-  m_Name: Manager
+  m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1085,28 +1084,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513101803}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -754.06104, y: 1.7002102, z: -0.089937136}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 527192924}
+  - {fileID: 1665393759}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &513101805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 513101803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc3dcf82448a74cac9af189d0a1000b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _UserData: {fileID: 11400000, guid: 22726194bed2e42f1b61c8302674021a, type: 2}
-  _SystemData: {fileID: 11400000, guid: eb86445fe3411412984f0a6a79b58ba9, type: 2}
-  _BattlePassPresenter: {fileID: 1472271539}
 --- !u!1 &516651944
 GameObject:
   m_ObjectHideFlags: 0
@@ -1183,6 +1169,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 516651944}
   m_CullTransparentMesh: 1
+--- !u!1 &527192923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 527192924}
+  - component: {fileID: 527192925}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &527192924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527192923}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 513101804}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &527192925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527192923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc3dcf82448a74cac9af189d0a1000b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _SystemData: {fileID: 11400000, guid: eb86445fe3411412984f0a6a79b58ba9, type: 2}
+  _BattlePassPresenter: {fileID: 1472271539}
 --- !u!1 &529415127
 GameObject:
   m_ObjectHideFlags: 0
@@ -4463,6 +4495,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661208680}
   m_CullTransparentMesh: 1
+--- !u!1 &1665393758
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1665393759}
+  - component: {fileID: 1665393760}
+  m_Layer: 0
+  m_Name: UserManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1665393759
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1665393758}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 513101804}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1665393760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1665393758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08df6d27bcb0049b6be5d53aee144b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UserData: {fileID: 11400000, guid: 22726194bed2e42f1b61c8302674021a, type: 2}
+  _EXPData: {fileID: 11400000, guid: 515d09842fbf748bd8c176734f4fd95a, type: 2}
 --- !u!1 &1839410578
 GameObject:
   m_ObjectHideFlags: 0
@@ -4523,6 +4601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4195a7a63714141748fbc8fac13bc682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _BattlePassPresenter: {fileID: 1472271539}
   _BattlePassElement: {fileID: 5968472652885545646, guid: ed8a9b739a37c4cae96df95257093a6b, type: 3}
   _BattlePassContentTransform: {fileID: 237712026}
   _StarText: {fileID: 659337311}
@@ -4531,6 +4610,11 @@ MonoBehaviour:
   _DiamondText: {fileID: 1558509886}
   _InventoryButton: {fileID: 975243664}
   _AddDiamondButton: {fileID: 805995685}
+  _UserTierText: {fileID: 776557861}
+  _UserEXPText: {fileID: 1444890961}
+  _UserEXPSlider: {fileID: 212795312}
+  _GainEXPButton: {fileID: 222339608}
+  _BuyBattlePassButton: {fileID: 1123639669}
 --- !u!1 &1903711827
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ namespace BattlePass
 {
     public class BattlePassPanel : MonoBehaviour
     {
+        [SerializeField] private BattlePassPresenter _BattlePassPresenter;
         [SerializeField] private BattlePassElement _BattlePassElement;
         [SerializeField] private Transform _BattlePassContentTransform;
 
@@ -21,7 +22,21 @@ namespace BattlePass
         [SerializeField] private Button _InventoryButton;
         [SerializeField] private Button _AddDiamondButton;
 
+        [SerializeField] private Text _UserTierText;
+        [SerializeField] private Text _UserEXPText;
+        [SerializeField] private Slider _UserEXPSlider;
+
+        [SerializeField] private Button _GainEXPButton;
+        [SerializeField] private Button _BuyBattlePassButton;
+
         private List<BattlePassElement> _BattlePassElementList = new List<BattlePassElement>();
+
+        public void UpdateUserEXP(int tier, int curExp, int maxExp)
+        {
+            _UserTierText.text = "Tier " + tier.ToString();
+            _UserEXPText.text = curExp.ToString() + "/" + maxExp.ToString();
+            _UserEXPSlider.value = ((float)curExp / (float)maxExp);
+        }
 
         public void UpdateBattlePassTier(int index, string tier)
         {
@@ -38,7 +53,7 @@ namespace BattlePass
             _BattlePassElementList[index]!.UpdateFreePassElementUI(isLock, itemSprite, itemValue);
         }
 
-        public void UpdatePlayerGoodsUI(int star, int pearl, int gold, int diamond)
+        public void UpdateUserGoodsUI(int star, int pearl, int gold, int diamond)
         {
             _StarText.text = star.ToString();
             _PearlText.text = pearl.ToString();
@@ -97,6 +112,11 @@ namespace BattlePass
 
         }
 
+        private void OnClickGainEXPButton()
+        {
+            _BattlePassPresenter.UpdateUserEXP(85);
+        }
+
         private void Start()
         {
             _InventoryButton.OnClickAsObservable()
@@ -104,6 +124,9 @@ namespace BattlePass
 
             _AddDiamondButton.OnClickAsObservable()
                             .Subscribe((v) => OnClickAddDiamondButton());
+
+            _GainEXPButton.OnClickAsObservable()
+                            .Subscribe((v) => OnClickGainEXPButton());
         }
     }
 

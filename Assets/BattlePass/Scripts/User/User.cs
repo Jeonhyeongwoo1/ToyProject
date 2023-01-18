@@ -16,6 +16,9 @@ namespace BattlePass
             _Pearl = userData.userGoodsData.pearl;
             _Gold = userData.userGoodsData.gold;
             _Diamond = userData.userGoodsData.diamond;
+
+            _Tier = userData.userEXPData.tier;
+            _CurExp = userData.userEXPData.curExp;
         }
 
         public int Star
@@ -42,9 +45,31 @@ namespace BattlePass
             set => _Diamond = value;
         }
 
+        public int Tier
+        {
+            get => _Tier;
+            set => _Tier = value;
+        }
+
+        public int CurExp
+        {
+            get => _CurExp;
+            set => _CurExp = value;
+        }
+
+        public int CurMaxExp
+        {
+            get => _CurMaxExp;
+            set => _CurMaxExp = value;
+        }
+
         private int _Star;
         private int _Pearl;
         private int _Gold;
         private int _Diamond;
+
+        private int _Tier;
+        private int _CurExp;
+        private int _CurMaxExp;
     }
 }
