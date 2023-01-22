@@ -15,15 +15,26 @@ namespace BattlePass
             _BattlePassPresenter.SetUserGoodsUI(star, pearl, gold, diamond);
         }
 
-        public void SetUserEXP(int tier, int curExp, int maxExp)
+        public void UpdateTier(int tier, bool isOpenedBattlePass)
         {
-            _BattlePassPresenter.SetUserEXP(tier, curExp, maxExp);
+            _BattlePassPresenter.UpdateTier(tier, isOpenedBattlePass);
+        }
+
+        public void SetUserEXP(int curExp, int maxExp)
+        {
+            _BattlePassPresenter.SetUserEXP(curExp, maxExp);
         }
 
         public void UpdateUserEXP(int exp)
         {
             UserManager.Instance.UpdateUserEXP(exp);
         }
+
+        public void UpdateUserDiamondUI(int count)
+        {
+            _BattlePassPresenter.UpdateUserDiamondUI(count);
+        }
+
 
         private void Start()
         {

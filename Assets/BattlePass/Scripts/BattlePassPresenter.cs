@@ -10,7 +10,7 @@ namespace BattlePass
         [SerializeField] private BattlePassPanel _BattlePassPanel;
 
         private List<BattlePassTier> _BattlePassTierList = new List<BattlePassTier>();
-
+        
         private void Start()
         {
             // star.Subscribe((v) => OnChangedStarValue(v))
@@ -26,6 +26,11 @@ namespace BattlePass
             //         .AddTo(gameObject);
         }
 
+        public void UpdateTier(int tier, bool isOpenedBattlePass)
+        {
+            _BattlePassPanel.UpdateTierUI(tier, tier - 1, isOpenedBattlePass);
+        }
+
         public void UpdateUserEXP(int exp)
         {
             UIManager.Instance.UpdateUserEXP(exp);
@@ -36,9 +41,9 @@ namespace BattlePass
             _BattlePassPanel.UpdateUserGoodsUI(star, pearl, gold, diamond);
         }
 
-        public void SetUserEXP(int tier, int curExp, int maxExp)
+        public void SetUserEXP(int curExp, int maxExp)
         {
-            _BattlePassPanel.UpdateUserEXP(tier, curExp, maxExp);
+            _BattlePassPanel.UpdateUserEXP(curExp, maxExp);
         }
 
         public void CreateBattlePassElement(List<BattlePassTierData> battlePassTierDataList)
@@ -66,6 +71,27 @@ namespace BattlePass
             }
         }
 
+        public BattlePassPurchasePopup.BattlePassPurchaseData GetBattlePassPurchaseData(int tier)
+        {
+            BattlePassTierData tierData = _BattlePassTierList[tier].battlePassTierData;
+
+            var data = new BattlePassPurchasePopup.BattlePassPurchaseData();
+            try
+            {
+                data.battlePassItemSprtie = tierData.battlePassItemData.itemSprite;
+                data.battlePassItemValue = tierData.battlePassItemData.itemValue.ToString();
+                data.freePassItemSprite = tierData.freePassItemData.itemSprite;
+                data.freePassItemValue = tierData.freePassItemData.itemValue.ToString();
+                data.tier = tierData.tier.ToString();
+                data.isLockBattlePass = tierData.battlePassItemData.isLock;
+            }
+            catch (System.Exception e)
+            {
+            }
+        
+            return data;
+        }
+
         public void AddBattlePassTierListData(BattlePassTierData battlePassTierData)
         {
             if (battlePassTierData == null)
@@ -78,6 +104,31 @@ namespace BattlePass
 
             int index = _BattlePassTierList.FindIndex((v) => v == battlePassTier);
             UpdateBattlePassElementUI(index);
+        }
+
+        public void AddUserDiamond(int count)
+        {
+            UserManager.Instance.AddUserDiamond(count);
+        }
+
+        public void UpdateUserDiamondUI(int count)
+        {
+            _BattlePassPanel.UpdateUserDiamondUI(count);
+        }
+
+        public void PurchaseBattlePass()
+        {
+            int tier = UserManager.Instance.GetUserTier();
+            bool isOpenedBattlePass = UserManager.Instance.IsOpenedBattlePass();
+
+            BattlePassTier battlePassTier = _BattlePassTierList.Find((v) => v.battlePassTierData.tier == tier);
+            if (battlePassTier == null)
+            {
+                return;
+            }
+
+            battlePassTier.HaveBattlePassItem = true;
+            _BattlePassPanel.ChangeHaveBattlePassItemUI(tier - 1, isOpenedBattlePass);
         }
 
         private void UpdateBattlePassElementUI(int index)

@@ -63,6 +63,12 @@ namespace BattlePass
             set => _CurMaxExp = value;
         }
 
+        public bool IsOpenedBattlePass
+        {
+            get => _IsOpenedBattlePass;
+            set => _IsOpenedBattlePass = value;
+        }
+
         private int _Star;
         private int _Pearl;
         private int _Gold;
@@ -71,5 +77,6 @@ namespace BattlePass
         private int _Tier;
         private int _CurExp;
         private int _CurMaxExp;
+        private bool _IsOpenedBattlePass;
     }
 }

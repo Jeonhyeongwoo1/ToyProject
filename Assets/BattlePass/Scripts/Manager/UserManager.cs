@@ -16,9 +16,12 @@ namespace BattlePass
         {
             _User = new User(_UserData);
             _User.CurMaxExp = _EXPData.expList.Find((v) => v.tier == _User.Tier).maxExp;
-            UIManager.Instance.SetUserEXP(_User.Tier, _User.CurExp, _User.CurMaxExp);
+            UIManager.Instance.SetUserEXP(_User.CurExp, _User.CurMaxExp);
             UIManager.Instance.SetUserGoods(_User.Star, _User.Pearl, _User.Gold, _User.Diamond);
         }
+
+        public bool IsOpenedBattlePass() => _User.IsOpenedBattlePass;
+        public int GetUserTier() => _User.Tier;
 
         public void UpdateUserEXP(int exp)
         {
@@ -32,7 +35,7 @@ namespace BattlePass
                 {
                     Debug.Log("maxTier");
                     _User.CurExp = _User.CurMaxExp;
-                    UIManager.Instance.SetUserEXP(_User.Tier, _User.CurExp, _User.CurMaxExp);
+                    UIManager.Instance.SetUserEXP(_User.CurExp, _User.CurMaxExp);
                     return;
                 }
 
@@ -43,7 +46,15 @@ namespace BattlePass
                 _User.CurMaxExp = eXP.maxExp;
             }
 
-            UIManager.Instance.SetUserEXP(_User.Tier, _User.CurExp, _User.CurMaxExp);
+            UIManager.Instance.UpdateTier(_User.Tier, _User.IsOpenedBattlePass);
+            UIManager.Instance.SetUserEXP(_User.CurExp, _User.CurMaxExp);
+        }
+
+        public void AddUserDiamond(int count)
+        {
+            _User.Diamond += count;
+
+            UIManager.Instance.UpdateUserDiamondUI(_User.Diamond);
         }
     }
 }

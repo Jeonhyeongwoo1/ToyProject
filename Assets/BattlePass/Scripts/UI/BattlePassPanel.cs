@@ -12,6 +12,7 @@ namespace BattlePass
         [SerializeField] private BattlePassPresenter _BattlePassPresenter;
         [SerializeField] private BattlePassElement _BattlePassElement;
         [SerializeField] private Transform _BattlePassContentTransform;
+        [SerializeField] private BattlePassPurchasePopup _BattlePassPurchasePopup;
 
         [Header("[GoodsValueList]")]
         [SerializeField] private Text _StarText;
@@ -31,9 +32,25 @@ namespace BattlePass
 
         private List<BattlePassElement> _BattlePassElementList = new List<BattlePassElement>();
 
-        public void UpdateUserEXP(int tier, int curExp, int maxExp)
+        public void UpdateUserDiamondUI(int count)
+        {
+            _DiamondText.text = count.ToString();
+        }
+
+        public void ChangeHaveBattlePassItemUI(int index, bool isOpenedBattlePassItem)
+        {
+            _BattlePassPurchasePopup.ClosePopup();
+            _BattlePassElementList[index].HaveItem(isOpenedBattlePassItem);
+        }
+
+        public void UpdateTierUI(int tier, int index, bool isOpenedBattlePassItem)
         {
             _UserTierText.text = "Tier " + tier.ToString();
+            _BattlePassElementList[index].OpenItem(isOpenedBattlePassItem);
+        }
+
+        public void UpdateUserEXP(int curExp, int maxExp)
+        {
             _UserEXPText.text = curExp.ToString() + "/" + maxExp.ToString();
             _UserEXPSlider.value = ((float)curExp / (float)maxExp);
         }
@@ -87,6 +104,7 @@ namespace BattlePass
             for (int i = 0; i < count; i++)
             {
                 BattlePassElement element = Instantiate(_BattlePassElement, _BattlePassContentTransform);
+                element.Init(i, OpenBattlePassPurchasePopup);
                 _BattlePassElementList.Add(element);
             }
         }
@@ -102,19 +120,37 @@ namespace BattlePass
             _BattlePassElementList.Clear();
         }
 
+        private void OpenBattlePassPurchasePopup(int tier)
+        {
+            BattlePassPurchasePopup.BattlePassPurchaseData data = _BattlePassPresenter.GetBattlePassPurchaseData(tier);
+
+            if (data.Equals(default))
+            {
+                Debug.LogError("BattlePass data null");
+                return;
+            }
+
+            _BattlePassPurchasePopup.OpenPopup(data);
+        }
+
         private void OnClickInventoryButton()
         {
 
         }
 
-        private void OnClickAddDiamondButton()
+        private void OnClickAddDiamondButton(int count)
         {
-
+            _BattlePassPresenter.AddUserDiamond(count);
         }
 
         private void OnClickGainEXPButton()
         {
             _BattlePassPresenter.UpdateUserEXP(85);
+        }
+
+        private void OnPurchaseBattlePass()
+        {
+            _BattlePassPresenter.PurchaseBattlePass();
         }
 
         private void Start()
@@ -123,10 +159,12 @@ namespace BattlePass
                             .Subscribe((v) => OnClickInventoryButton());
 
             _AddDiamondButton.OnClickAsObservable()
-                            .Subscribe((v) => OnClickAddDiamondButton());
+                            .Subscribe((v) => OnClickAddDiamondButton(30));
 
             _GainEXPButton.OnClickAsObservable()
                             .Subscribe((v) => OnClickGainEXPButton());
+
+            _BattlePassPurchasePopup.SetPurchaseBattlePassEvent(OnPurchaseBattlePass);
         }
     }
 
