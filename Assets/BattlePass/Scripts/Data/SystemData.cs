@@ -9,6 +9,14 @@ namespace BattlePass
     public class SystemData : ScriptableObject
     {
         public List<BattlePassTierData> battlePassDataList = new List<BattlePassTierData>();
+        public List<ItemData> itemDataList = new List<ItemData>();
+    }
+
+    [Serializable]
+    public struct ItemData
+    {
+        public string id;
+        public Sprite itemSprite;
     }
 
     [Serializable]
@@ -22,6 +30,7 @@ namespace BattlePass
     [Serializable]
     public class BattlePassTierItemData
     {
+        public string id;
         public bool isLock;
         public Sprite itemSprite;
         public int itemValue;

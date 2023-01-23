@@ -62,7 +62,7 @@ namespace BattlePass
             }
         }
 
-        private void ActiveBattlePassItem()
+        public void ActiveBattlePassItem()
         {
             _BattlePassUnlockTransform.gameObject.SetActive(true);
             _BattlePassLockTransform.gameObject.SetActive(false);

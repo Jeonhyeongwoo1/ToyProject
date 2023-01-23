@@ -25,6 +25,7 @@ namespace BattlePass
     [Serializable]
     public class InventoryItemData
     {
+        public List<string> itemIdList;
     }
 
     [Serializable]

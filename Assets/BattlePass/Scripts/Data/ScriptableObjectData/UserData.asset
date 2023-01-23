@@ -20,3 +20,6 @@ MonoBehaviour:
   userEXPData:
     tier: 1
     curExp: 20
+  inventoryItemData:
+    itemIdList:
+    - sword

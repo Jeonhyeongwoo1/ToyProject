@@ -15,145 +15,184 @@ MonoBehaviour:
   battlePassDataList:
   - tier: 1
     freePassItemData:
+      id: sword
       isLock: 0
       itemSprite: {fileID: 21300000, guid: 9c3d3ffeab49644e39a97ddc9f7c7bd8, type: 3}
       itemValue: 1
     battlePassItemData:
+      id: gold
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 4ee1efab245554e46b709e2d533935a0, type: 3}
       itemValue: 100
   - tier: 2
     freePassItemData:
+      id: pearl
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 62f923c87f2794cccb45aefd5f753ef1, type: 3}
       itemValue: 1
     battlePassItemData:
+      id: diamond
       isLock: 1
       itemSprite: {fileID: 21300000, guid: f59897fabe6cc407084a50f1e26996d9, type: 3}
       itemValue: 4
   - tier: 3
     freePassItemData:
+      id: star
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 3a190af4284864933873f74edeeee8ba, type: 3}
       itemValue: 1
     battlePassItemData:
+      id: pearl
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 62f923c87f2794cccb45aefd5f753ef1, type: 3}
       itemValue: 7
   - tier: 4
     freePassItemData:
+      id: shield
       isLock: 1
       itemSprite: {fileID: 21300000, guid: f4d03b8cee7f34daf8cec2cff609cf5c, type: 3}
       itemValue: 1
     battlePassItemData:
+      id: gold
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 4ee1efab245554e46b709e2d533935a0, type: 3}
       itemValue: 100
   - tier: 5
     freePassItemData:
+      id: gold
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 4ee1efab245554e46b709e2d533935a0, type: 3}
       itemValue: 150
     battlePassItemData:
+      id: diamond
       isLock: 1
       itemSprite: {fileID: 21300000, guid: f59897fabe6cc407084a50f1e26996d9, type: 3}
       itemValue: 2
   - tier: 6
     freePassItemData:
+      id: pearl
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 62f923c87f2794cccb45aefd5f753ef1, type: 3}
       itemValue: 1
     battlePassItemData:
+      id: star
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 3a190af4284864933873f74edeeee8ba, type: 3}
       itemValue: 15
   - tier: 7
     freePassItemData:
+      id: sword
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 9c3d3ffeab49644e39a97ddc9f7c7bd8, type: 3}
       itemValue: 1
     battlePassItemData:
+      id: gold
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 4ee1efab245554e46b709e2d533935a0, type: 3}
       itemValue: 100
   - tier: 8
     freePassItemData:
+      id: star
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 3a190af4284864933873f74edeeee8ba, type: 3}
       itemValue: 1
     battlePassItemData:
+      id: diamond
       isLock: 1
       itemSprite: {fileID: 21300000, guid: f59897fabe6cc407084a50f1e26996d9, type: 3}
       itemValue: 2
   - tier: 9
     freePassItemData:
+      id: pearl
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 62f923c87f2794cccb45aefd5f753ef1, type: 3}
       itemValue: 1
     battlePassItemData:
+      id: gold
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 4ee1efab245554e46b709e2d533935a0, type: 3}
       itemValue: 200
   - tier: 10
     freePassItemData:
+      id: pearl
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 62f923c87f2794cccb45aefd5f753ef1, type: 3}
       itemValue: 1
     battlePassItemData:
+      id: diamond
       isLock: 1
       itemSprite: {fileID: 21300000, guid: f59897fabe6cc407084a50f1e26996d9, type: 3}
       itemValue: 20
   - tier: 11
     freePassItemData:
+      id: gold
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 4ee1efab245554e46b709e2d533935a0, type: 3}
       itemValue: 10
     battlePassItemData:
+      id: pearl
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 62f923c87f2794cccb45aefd5f753ef1, type: 3}
       itemValue: 2
   - tier: 12
     freePassItemData:
+      id: diamond
       isLock: 1
       itemSprite: {fileID: 21300000, guid: f59897fabe6cc407084a50f1e26996d9, type: 3}
       itemValue: 50
     battlePassItemData:
+      id: crown
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 6044ac3313cd54a9c83e6ee073fcfc1a, type: 3}
       itemValue: 1
   - tier: 13
     freePassItemData:
+      id: sword
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 9c3d3ffeab49644e39a97ddc9f7c7bd8, type: 3}
       itemValue: 1
     battlePassItemData:
+      id: diamond
       isLock: 1
       itemSprite: {fileID: 21300000, guid: f59897fabe6cc407084a50f1e26996d9, type: 3}
       itemValue: 50
   - tier: 14
     freePassItemData:
+      id: gold
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 4ee1efab245554e46b709e2d533935a0, type: 3}
       itemValue: 5
     battlePassItemData:
+      id: diamond
       isLock: 1
       itemSprite: {fileID: 21300000, guid: f59897fabe6cc407084a50f1e26996d9, type: 3}
       itemValue: 11
   - tier: 15
     freePassItemData:
+      id: pearl
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 62f923c87f2794cccb45aefd5f753ef1, type: 3}
       itemValue: 5
     battlePassItemData:
+      id: pearl
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 62f923c87f2794cccb45aefd5f753ef1, type: 3}
       itemValue: 15
   - tier: 17
     freePassItemData:
+      id: 
       isLock: 1
       itemSprite: {fileID: 21300000, guid: 4ee1efab245554e46b709e2d533935a0, type: 3}
       itemValue: 22
     battlePassItemData:
+      id: 
       isLock: 1
       itemSprite: {fileID: 21300000, guid: f59897fabe6cc407084a50f1e26996d9, type: 3}
       itemValue: 30
+  itemDataList:
+  - id: sword
+    itemSprite: {fileID: 21300000, guid: 9c3d3ffeab49644e39a97ddc9f7c7bd8, type: 3}
+  - id: shield
+    itemSprite: {fileID: 21300000, guid: f4d03b8cee7f34daf8cec2cff609cf5c, type: 3}
+  - id: crown
+    itemSprite: {fileID: 21300000, guid: 6044ac3313cd54a9c83e6ee073fcfc1a, type: 3}

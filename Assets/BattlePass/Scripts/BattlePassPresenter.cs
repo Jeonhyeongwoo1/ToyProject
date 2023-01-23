@@ -10,7 +10,7 @@ namespace BattlePass
         [SerializeField] private BattlePassPanel _BattlePassPanel;
 
         private List<BattlePassTier> _BattlePassTierList = new List<BattlePassTier>();
-        
+
         private void Start()
         {
             // star.Subscribe((v) => OnChangedStarValue(v))
@@ -29,6 +29,30 @@ namespace BattlePass
         public void UpdateTier(int tier, bool isOpenedBattlePass)
         {
             _BattlePassPanel.UpdateTierUI(tier, tier - 1, isOpenedBattlePass);
+        }
+
+        public void BuyBattlePass(int necessaryDiamond)
+        {
+            bool isSuccess = UserManager.Instance.UseDiamond(necessaryDiamond);
+            if (!isSuccess)
+            {
+                return;
+            }
+
+            int tier = UserManager.Instance.GetUserTier();
+            for (int i = 0; i < tier; i++)
+            {
+                BattlePassTier battlePassTier = _BattlePassTierList[i];
+                _BattlePassPanel.OpenBattlePassElement(i);
+
+                if (battlePassTier.HaveFreePassItem)
+                {
+                    _BattlePassPanel.ChangeHaveBattlePassItemUI(i, true);
+                    UpdateUserData(battlePassTier.battlePassTierData.battlePassItemData.id, battlePassTier.battlePassTierData.battlePassItemData.itemValue);
+                }
+            }
+
+            _BattlePassPanel.DeactivateBuyBattlePassButton();
         }
 
         public void UpdateUserEXP(int exp)
@@ -82,13 +106,14 @@ namespace BattlePass
                 data.battlePassItemValue = tierData.battlePassItemData.itemValue.ToString();
                 data.freePassItemSprite = tierData.freePassItemData.itemSprite;
                 data.freePassItemValue = tierData.freePassItemData.itemValue.ToString();
-                data.tier = tierData.tier.ToString();
+                data.tier = tierData.tier;
                 data.isLockBattlePass = tierData.battlePassItemData.isLock;
+                data.hasItem = _BattlePassTierList[tier].HaveFreePassItem;
             }
             catch (System.Exception e)
             {
             }
-        
+
             return data;
         }
 
@@ -116,9 +141,8 @@ namespace BattlePass
             _BattlePassPanel.UpdateUserDiamondUI(count);
         }
 
-        public void PurchaseBattlePass()
+        public void PurchaseBattlePass(int tier)
         {
-            int tier = UserManager.Instance.GetUserTier();
             bool isOpenedBattlePass = UserManager.Instance.IsOpenedBattlePass();
 
             BattlePassTier battlePassTier = _BattlePassTierList.Find((v) => v.battlePassTierData.tier == tier);
@@ -127,8 +151,55 @@ namespace BattlePass
                 return;
             }
 
-            battlePassTier.HaveBattlePassItem = true;
+            if (isOpenedBattlePass)
+            {
+                battlePassTier.HaveBattlePassItem = true;
+            }
+
+            battlePassTier.HaveFreePassItem = true;
             _BattlePassPanel.ChangeHaveBattlePassItemUI(tier - 1, isOpenedBattlePass);
+
+            UpdateUserData(battlePassTier.battlePassTierData.freePassItemData.id, battlePassTier.battlePassTierData.freePassItemData.itemValue);
+            if (!isOpenedBattlePass)
+            {
+                return;
+            }
+
+            UpdateUserData(battlePassTier.battlePassTierData.battlePassItemData.id, battlePassTier.battlePassTierData.battlePassItemData.itemValue);
+        }
+
+        public List<Sprite> GetUserItemSpriteList()
+        {
+            return UIManager.Instance.GetUserItemSpriteList();
+        }
+
+        private void UpdateUserData(string id, int value)
+        {
+            switch (id)
+            {
+                case "star":
+                    UIManager.Instance.UpdateUserStar(value);
+                    _BattlePassPanel.UpdatStarText(UserManager.Instance.GetUserStar().ToString());
+                    break;
+                case "pearl":
+                    UIManager.Instance.UpdateUserPearl(value);
+                    _BattlePassPanel.UpdatePearlText(UserManager.Instance.GetUserPearl().ToString());
+                    break;
+                case "gold":
+                    UIManager.Instance.UpdateUserGold(value);
+                    _BattlePassPanel.UpdateGoldText(UserManager.Instance.GetUserGold().ToString());
+                    break;
+                case "diamond":
+                    UIManager.Instance.UpdateUserDiamond(value);
+                    _BattlePassPanel.UpdateDiamondText(UserManager.Instance.GetUserDiamond().ToString());
+                    break;
+                case "sword":
+                case "shield":
+                case "crown":
+                    UIManager.Instance.GainItem(id);
+                    break;
+                    //Sword, Shield, Crown
+            }
         }
 
         private void UpdateBattlePassElementUI(int index)

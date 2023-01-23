@@ -20,8 +20,31 @@ namespace BattlePass
             UIManager.Instance.SetUserGoods(_User.Star, _User.Pearl, _User.Gold, _User.Diamond);
         }
 
-        public bool IsOpenedBattlePass() => _User.IsOpenedBattlePass;
+        public void GainItem(string id)
+        {
+            if (_User.ItemList == null)
+            {
+                _User.ItemList = new List<string>();
+                _User.ItemList.Add(id);
+            }
+
+            if (!_User.ItemList.Contains(id))
+            {
+                _User.ItemList.Add(id);
+            }
+        }
+
+        public List<string> GetUserItemData() => _User.ItemList;
+        public void UpdateUserStar(int count) => _User.Star += count;
+        public void UpdateUserDiamond(int count) => _User.Diamond += count;
+        public void UpdateUserPearl(int count) => _User.Pearl += count;
+        public void UpdateUserGold(int count) => _User.Gold += count;
         public int GetUserTier() => _User.Tier;
+        public int GetUserStar() => _User.Star;
+        public int GetUserDiamond() => _User.Diamond;
+        public int GetUserPearl() => _User.Pearl;
+        public int GetUserGold() => _User.Gold;
+        public bool IsOpenedBattlePass() => _User.IsOpenedBattlePass;
 
         public void UpdateUserEXP(int exp)
         {
@@ -48,6 +71,19 @@ namespace BattlePass
 
             UIManager.Instance.UpdateTier(_User.Tier, _User.IsOpenedBattlePass);
             UIManager.Instance.SetUserEXP(_User.CurExp, _User.CurMaxExp);
+        }
+
+        public bool UseDiamond(int diamond)
+        {
+            if(diamond > _User.Diamond)
+            {
+                Debug.Log("need more a diamond");
+                return false;
+            }
+
+            _User.IsOpenedBattlePass = true;
+            AddUserDiamond(-diamond);
+            return true;
         }
 
         public void AddUserDiamond(int count)

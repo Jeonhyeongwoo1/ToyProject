@@ -14,6 +14,13 @@ namespace BattlePass
             set => _HaveBattlePassItem = value;
         }
 
+        public bool HaveFreePassItem
+        {
+            get => _HaveFreePassItem;
+            set => _HaveFreePassItem = value;
+        }
+
+        private bool _HaveFreePassItem;
         private bool _HaveBattlePassItem;
 
         public BattlePassTier(BattlePassTierData battlePassTierData)

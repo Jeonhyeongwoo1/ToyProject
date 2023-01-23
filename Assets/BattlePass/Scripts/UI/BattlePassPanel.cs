@@ -2,17 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 using Sirenix.OdinInspector;
 using UniRx;
 
 namespace BattlePass
 {
+    public abstract class BasePopup : MonoBehaviour
+    {
+        public virtual void OpenPopup(object data)
+        {
+            gameObject.SetActive(true);
+        }
+
+        public virtual void ClosePopup()
+        {
+            gameObject.SetActive(false);
+        }
+
+        protected void ResizeScale(Transform target, bool isUp, Action done = null)
+        {
+            Observable.FromCoroutine<Vector3>((observer) => ResizeScaleCor(observer, isUp, done))
+                     .Subscribe((v) => target.localScale = v)
+                     .AddTo(gameObject);
+        }
+
+        private IEnumerator ResizeScaleCor(IObserver<Vector3> observer, bool isUp, Action done = null)
+        {
+            float elapsed = 0;
+            float duration = 0.3f;
+            Vector3 start = isUp ? Vector3.zero : Vector3.one;
+            Vector3 end = isUp ? Vector3.one : Vector3.zero;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                Vector3 value = Vector3.Lerp(start, end, elapsed / duration);
+                observer.OnNext(value);
+                yield return null;
+            }
+
+            done?.Invoke();
+        }
+    }
+
     public class BattlePassPanel : MonoBehaviour
     {
         [SerializeField] private BattlePassPresenter _BattlePassPresenter;
         [SerializeField] private BattlePassElement _BattlePassElement;
         [SerializeField] private Transform _BattlePassContentTransform;
         [SerializeField] private BattlePassPurchasePopup _BattlePassPurchasePopup;
+        [SerializeField] private InventoryPopup _InventoryPopup;
 
         [Header("[GoodsValueList]")]
         [SerializeField] private Text _StarText;
@@ -30,6 +70,8 @@ namespace BattlePass
         [SerializeField] private Button _GainEXPButton;
         [SerializeField] private Button _BuyBattlePassButton;
 
+        [SerializeField] private Color _BuyBattlePassButtonDeactivateColor;
+
         private List<BattlePassElement> _BattlePassElementList = new List<BattlePassElement>();
 
         public void UpdateUserDiamondUI(int count)
@@ -39,7 +81,11 @@ namespace BattlePass
 
         public void ChangeHaveBattlePassItemUI(int index, bool isOpenedBattlePassItem)
         {
-            _BattlePassPurchasePopup.ClosePopup();
+            if (_BattlePassPurchasePopup.IsOpened)
+            {
+                _BattlePassPurchasePopup.ClosePopup();
+            }
+
             _BattlePassElementList[index].HaveItem(isOpenedBattlePassItem);
         }
 
@@ -88,7 +134,7 @@ namespace BattlePass
             _PearlText.text = pearl;
         }
 
-        public void UpdateGodText(string gold)
+        public void UpdateGoldText(string gold)
         {
             _GoldText.text = gold;
         }
@@ -120,6 +166,18 @@ namespace BattlePass
             _BattlePassElementList.Clear();
         }
 
+        public void DeactivateBuyBattlePassButton()
+        {
+            _BuyBattlePassButton.enabled = false;
+            _BuyBattlePassButton.GetComponent<Image>().color = _BuyBattlePassButtonDeactivateColor;
+            _BuyBattlePassButton.transform.GetChild(1).GetComponent<Image>().color = _BuyBattlePassButtonDeactivateColor;
+        }
+
+        public void OpenBattlePassElement(int index)
+        {
+            _BattlePassElementList[index].ActiveBattlePassItem();
+        }
+
         private void OpenBattlePassPurchasePopup(int tier)
         {
             BattlePassPurchasePopup.BattlePassPurchaseData data = _BattlePassPresenter.GetBattlePassPurchaseData(tier);
@@ -135,7 +193,8 @@ namespace BattlePass
 
         private void OnClickInventoryButton()
         {
-
+            List<Sprite> list = _BattlePassPresenter.GetUserItemSpriteList();
+            _InventoryPopup.OpenPopup(list);
         }
 
         private void OnClickAddDiamondButton(int count)
@@ -148,9 +207,14 @@ namespace BattlePass
             _BattlePassPresenter.UpdateUserEXP(85);
         }
 
-        private void OnPurchaseBattlePass()
+        private void OnPurchaseBattlePass(int tier)
         {
-            _BattlePassPresenter.PurchaseBattlePass();
+            _BattlePassPresenter.PurchaseBattlePass(tier);
+        }
+
+        private void OnBuyBattlePass(int necessaryDiamond)
+        {
+            _BattlePassPresenter.BuyBattlePass(necessaryDiamond);
         }
 
         private void Start()
@@ -163,6 +227,9 @@ namespace BattlePass
 
             _GainEXPButton.OnClickAsObservable()
                             .Subscribe((v) => OnClickGainEXPButton());
+
+            _BuyBattlePassButton.OnClickAsObservable()
+                                .Subscribe((v) => OnBuyBattlePass(10));
 
             _BattlePassPurchasePopup.SetPurchaseBattlePassEvent(OnPurchaseBattlePass);
         }

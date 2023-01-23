@@ -35,6 +35,35 @@ namespace BattlePass
             _BattlePassPresenter.UpdateUserDiamondUI(count);
         }
 
+        public List<Sprite> GetUserItemSpriteList()
+        {
+            List<string> userItemList = UserManager.Instance.GetUserItemData();
+            if (userItemList == null)
+            {
+                return null;
+            }
+
+            List<Sprite> userItemSpriteList = new List<Sprite>();
+            for (int i = 0; i < userItemList.Count; i++)
+            {
+                for (int j = 0; j < _SystemData.itemDataList.Count; j++)
+                {
+                    if (_SystemData.itemDataList[j].id == userItemList[i])
+                    {
+                        userItemSpriteList.Add(_SystemData.itemDataList[j].itemSprite);
+                    }
+                }
+            }
+
+            return userItemSpriteList;
+        }
+
+        public List<string> GetUserItemList() => UserManager.Instance.GetUserItemData();
+        public void GainItem(string id) => UserManager.Instance.GainItem(id);
+        public void UpdateUserStar(int count) => UserManager.Instance.UpdateUserStar(count);
+        public void UpdateUserDiamond(int count) => UserManager.Instance.UpdateUserDiamond(count);
+        public void UpdateUserPearl(int count) => UserManager.Instance.UpdateUserPearl(count);
+        public void UpdateUserGold(int count) => UserManager.Instance.UpdateUserGold(count);
 
         private void Start()
         {

@@ -19,6 +19,13 @@ namespace BattlePass
 
             _Tier = userData.userEXPData.tier;
             _CurExp = userData.userEXPData.curExp;
+            _ItemList = userData.inventoryItemData.itemIdList;
+        }
+
+        public List<string> ItemList
+        {
+            get => _ItemList;
+            set => _ItemList = value;
         }
 
         public int Star
@@ -78,5 +85,6 @@ namespace BattlePass
         private int _CurExp;
         private int _CurMaxExp;
         private bool _IsOpenedBattlePass;
+        private List<string> _ItemList;
     }
 }
