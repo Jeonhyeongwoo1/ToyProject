@@ -40,24 +40,35 @@ namespace Roulette
 
         }
 
+        private Vector2 itemPos;
         private void OnScroll(Vector2 value)
         {
             for (int i = 0; i < _ItemList.Count; i++)
             {
                 RectTransform item = _ItemList[i];
                 //맨 밑의 경우 child 0으로 변경한다
-                if(i == 0)
+                if (i == 0)
                 {
-Debug.Log(_ScrollRect.transform.InverseTransformPoint(item.gameObject.transform.position).y);
+                    Debug.Log(_ScrollRect.transform.InverseTransformPoint(item.gameObject.transform.position).y);
                 }
-                
-                if(_ScrollRect.transform.InverseTransformPoint(item.gameObject.transform.position).y < -_DisableMargin)
+
+                float posY = _ScrollRect.transform.InverseTransformPoint(item.position).y;
+                if (posY < -_DisableMargin)
                 {
                     float newPosY = item.anchoredPosition.y;
                     newPosY += _OffsetY * _ItemList.Count;
                     item.anchoredPosition = new Vector2(item.anchoredPosition.x, newPosY);
                     _ScrollRect.content.GetChild(0).transform.SetAsLastSibling();
                 }
+
+                if (posY > _DisableMargin + _Threshold)
+                {
+                    float newPosY = item.anchoredPosition.y;
+                    newPosY -= _OffsetY * _ItemList.Count;
+                    item.anchoredPosition = new Vector2(item.anchoredPosition.x, newPosY);
+                    _ScrollRect.content.GetChild(_ItemList.Count - 1).SetAsFirstSibling();
+                }
+
             }
         }
 
