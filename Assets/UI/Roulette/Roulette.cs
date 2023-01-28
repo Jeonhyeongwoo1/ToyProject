@@ -39,6 +39,8 @@ namespace Roulette
             [HideInInspector] public float hookCorrection;
         }
 
+        [SerializeField] private RectTransform _SelectedItem;
+
         //미리 선정된 아이템을 뽑아내자.
         private void GetSelectedItem()
         {
@@ -66,13 +68,9 @@ namespace Roulette
             isRight = rightCount > leftCount;
             int totalCount = Mathf.Abs(rightCount - leftCount);
             int index = (totalCount) % (_ItemList.Count);
+            int selectIndex = _ItemList.Count - index;
 
-
-
-            Debug.Log(Mathf.Abs(rightCount - leftCount));
-            Debug.Log("totalCount : " + totalCount);
-            Debug.Log("index : " + index);
-
+            _SelectedItem = _ItemList[selectIndex];
         }
 
         private void Start()
@@ -125,14 +123,13 @@ namespace Roulette
                 RectTransform item = _ItemList[i];
 
                 int half = _ItemList.Count / 2;
-                if (i < half)
+                if (i <= half)
                 {
-                    int value = (half - i) * -1;
-                    item.anchoredPosition = new Vector2(_Offset * value, 0);
+                    item.anchoredPosition = new Vector2(_Offset * i, 0);
                 }
                 else if (i > half)
                 {
-                    int value = i - half;
+                    int value = (_ItemList.Count - i) * -1;
                     item.anchoredPosition = new Vector2(_Offset * value, 0);
                 }
                 else
@@ -165,7 +162,7 @@ namespace Roulette
                 if (data.useHook)
                 {
                     float delta = _Offset * data.hookRatio;
-                    endPosX += delta;
+                    endPosX += dir == -1 ? delta : -delta;
 
                     if (i != _RollingData.Count - 1)
                     {
