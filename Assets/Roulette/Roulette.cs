@@ -27,13 +27,17 @@ namespace Roulette
         }
 
         [Serializable]
-        public struct RollingData
+        public class RollingData
         {
             public DirectionType directionType;
             public int countCount;
             public float duration;
             public float delay;
             public AnimationCurve animationCurve;
+
+            public bool useHook;
+            public float hookRatio; //Hook은 맨마지막 단계에서 발생
+            [HideInInspector] public float hookCorrection;
         }
 
         private void Start()
@@ -76,6 +80,11 @@ namespace Roulette
 
         }
 
+        private void OnEnable()
+        {
+            _ScrollRect.content.anchoredPosition = Vector2.zero;
+        }
+
         [Button]
         private void MoveTo()
         {
@@ -86,20 +95,46 @@ namespace Roulette
         {
             for (int i = 0; i < _RollingData.Count; i++)
             {
-                bool isComplete = false;
                 RollingData data = _RollingData[i];
                 int dir = data.directionType == DirectionType.RIGHT ? 1 : -1;
-                float movePosX = _ScrollRect.content.anchoredPosition.x + data.countCount * _Offset * dir;
-                _ScrollRect.content.DOAnchorPosX(movePosX, data.duration)
-                                    .SetEase(data.animationCurve)
-                                    .OnComplete(() => isComplete = true);
+                float endPosX = _ScrollRect.content.anchoredPosition.x + data.countCount * _Offset * dir;
+                float startPosX = _ScrollRect.content.anchoredPosition.x;
 
-                while (!isComplete)
+                if (data.useHook)
                 {
+                    float delta = _Offset * data.hookRatio;
+                    endPosX += delta;
+
+                    if (i != _RollingData.Count - 1)
+                    {
+                        _RollingData[i + 1].hookCorrection = _Offset * (1 - data.hookRatio);
+                    }
+                }
+
+                if (data.hookCorrection != 0)
+                {
+                    endPosX += data.hookCorrection;
+                }
+
+                float elapsed = 0;
+                float duration = data.duration;
+                AnimationCurve animationCurve = data.animationCurve;
+                Vector2 pos = Vector2.zero;
+                pos.y = _ScrollRect.content.anchoredPosition.y;
+
+                while (elapsed < duration)
+                {
+                    elapsed += Time.deltaTime;
+                    float value = Mathf.LerpUnclamped(startPosX, endPosX, animationCurve.Evaluate(elapsed / duration));
+                    pos.x = value;
+                    _ScrollRect.content.anchoredPosition = pos;
                     yield return null;
                 }
 
-                yield return new WaitForSeconds(data.delay);
+                if (!data.useHook)
+                {
+                    yield return new WaitForSeconds(data.delay);
+                }
             }
         }
 
