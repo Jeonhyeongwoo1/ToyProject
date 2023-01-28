@@ -16,7 +16,6 @@ namespace Roulette
         [SerializeField] private float _Threshold = 100;
         [SerializeField] private float _DisableMargin;
         [SerializeField] private float _Offset;
-        [SerializeField] private int _CardCount;
         [SerializeField] private List<RectTransform> _ItemList = new List<RectTransform>();
         [SerializeField] private List<RollingData> _RollingData = new List<RollingData>();
 
@@ -30,7 +29,7 @@ namespace Roulette
         public class RollingData
         {
             public DirectionType directionType;
-            public int countCount;
+            public int count;
             public float duration;
             public float delay;
             public AnimationCurve animationCurve;
@@ -38,6 +37,42 @@ namespace Roulette
             public bool useHook;
             public float hookRatio; //Hook은 맨마지막 단계에서 발생
             [HideInInspector] public float hookCorrection;
+        }
+
+        //미리 선정된 아이템을 뽑아내자.
+        private void GetSelectedItem()
+        {
+            /*
+                1.좌우 이동에 의해서 최종적 이동되는 값을 찾아낸다.
+                2.total에서 몇번째 인덱스인지 확인한다
+            */
+
+            bool isRight = false;
+            int rightCount = 0;
+            int leftCount = 0;
+
+            for (int i = 0; i < _RollingData.Count; i++)
+            {
+                if (_RollingData[i].directionType == DirectionType.RIGHT)
+                {
+                    rightCount += _RollingData[i].count;
+                }
+                else if (_RollingData[i].directionType == DirectionType.LEFT)
+                {
+                    leftCount += _RollingData[i].count;
+                }
+            }
+
+            isRight = rightCount > leftCount;
+            int totalCount = Mathf.Abs(rightCount - leftCount);
+            int index = (totalCount) % (_ItemList.Count);
+
+
+
+            Debug.Log(Mathf.Abs(rightCount - leftCount));
+            Debug.Log("totalCount : " + totalCount);
+            Debug.Log("index : " + index);
+
         }
 
         private void Start()
@@ -48,6 +83,9 @@ namespace Roulette
             for (int i = 0; i < childCount; i++)
             {
                 RectTransform rect = _ScrollRect.content.GetChild(i).GetComponent<RectTransform>();
+                rect.anchorMax = new Vector2(0.5f, 0.5f);
+                rect.anchorMin = new Vector2(0.5f, 0.5f);
+
                 _ItemList.Add(rect);
             }
 
@@ -72,12 +110,36 @@ namespace Roulette
 
                 _Offset = axisX;
                 _DisableMargin = _Offset * childCount / 2;
-
-
             }
 
             _ScrollRect.content.sizeDelta = _ItemList[0].sizeDelta;
 
+            SetupItemPosition();
+            GetSelectedItem();
+        }
+
+        private void SetupItemPosition()
+        {
+            for (int i = 0; i < _ItemList.Count; i++)
+            {
+                RectTransform item = _ItemList[i];
+
+                int half = _ItemList.Count / 2;
+                if (i < half)
+                {
+                    int value = (half - i) * -1;
+                    item.anchoredPosition = new Vector2(_Offset * value, 0);
+                }
+                else if (i > half)
+                {
+                    int value = i - half;
+                    item.anchoredPosition = new Vector2(_Offset * value, 0);
+                }
+                else
+                {
+                    item.anchoredPosition = Vector2.zero;
+                }
+            }
         }
 
         private void OnEnable()
@@ -96,8 +158,8 @@ namespace Roulette
             for (int i = 0; i < _RollingData.Count; i++)
             {
                 RollingData data = _RollingData[i];
-                int dir = data.directionType == DirectionType.RIGHT ? 1 : -1;
-                float endPosX = _ScrollRect.content.anchoredPosition.x + data.countCount * _Offset * dir;
+                int dir = data.directionType == DirectionType.RIGHT ? -1 : 1;
+                float endPosX = _ScrollRect.content.anchoredPosition.x + data.count * _Offset * dir;
                 float startPosX = _ScrollRect.content.anchoredPosition.x;
 
                 if (data.useHook)
