@@ -10,15 +10,6 @@ namespace Roulette
 {
     public class Roulette : MonoBehaviour
     {
-        [SerializeField] private ScrollRect _ScrollRect;
-
-        [SerializeField] private bool _IsVertical;
-        [SerializeField] private float _Threshold = 100;
-        [SerializeField] private float _DisableMargin;
-        [SerializeField] private float _Offset;
-        [SerializeField] private List<RectTransform> _ItemList = new List<RectTransform>();
-        [SerializeField] private List<RollingData> _RollingData = new List<RollingData>();
-
         public enum DirectionType
         {
             LEFT,
@@ -39,16 +30,45 @@ namespace Roulette
             [HideInInspector] public float hookCorrection;
         }
 
-        [SerializeField] private RectTransform _SelectedItem;
-
-        //미리 선정된 아이템을 뽑아내자.
-        private void GetSelectedItem()
+        public int RollingItemCount => _ItemList.Count;
+        public int SelectionItemIndex
         {
-            /*
-                1.좌우 이동에 의해서 최종적 이동되는 값을 찾아낸다.
-                2.total에서 몇번째 인덱스인지 확인한다
-            */
+            get
+            {
+                if (_RollingData.Count == 0)
+                {
+                    return -1;
+                }
 
+                if (_SelectedItem == null)
+                {
+                    return -1;
+                }
+
+                int index = _ItemList.FindIndex((v) => v == _SelectedItem);
+                return index;
+            }
+        }
+
+        [SerializeField] private bool _IsVertical;
+        [SerializeField] private float _Threshold = 100;
+        [SerializeField] private float _DisableMargin;
+        [SerializeField] private float _Offset;
+        [SerializeField] private ScrollRect _ScrollRect;
+        [SerializeField] private List<RectTransform> _ItemList = new List<RectTransform>();
+        [SerializeField] private List<RollingData> _RollingData = new List<RollingData>();
+        [SerializeField] private RectTransform _SelectedItem;
+        [SerializeField] private RouletteTestManager _RouletteTestManager;
+
+        public void UpdateRoulletteItem(int index, string title, Color itemColor)
+        {
+            _ItemList[index].TryGetComponent<RouletteItem>(out var item);
+            item.SetItemImageColor(itemColor);
+            item.SetItemTitle(title);
+        }
+
+        private RectTransform GetSelectedItem()
+        {
             bool isRight = false;
             int rightCount = 0;
             int leftCount = 0;
@@ -69,8 +89,12 @@ namespace Roulette
             int totalCount = Mathf.Abs(rightCount - leftCount);
             int index = (totalCount) % (_ItemList.Count);
             int selectIndex = _ItemList.Count - index;
+            if (selectIndex == _ItemList.Count)
+            {
+                selectIndex = 0;
+            }
 
-            _SelectedItem = _ItemList[selectIndex];
+            return _ItemList[selectIndex];
         }
 
         private void Start()
@@ -113,7 +137,8 @@ namespace Roulette
             _ScrollRect.content.sizeDelta = _ItemList[0].sizeDelta;
 
             SetupItemPosition();
-            GetSelectedItem();
+
+            _SelectedItem = GetSelectedItem();
         }
 
         private void SetupItemPosition()
@@ -231,6 +256,11 @@ namespace Roulette
                         newPosX += _Offset * _ItemList.Count;
                         item.anchoredPosition = new Vector2(newPosX, item.anchoredPosition.y);
                         _ScrollRect.content.GetChild(0).transform.SetAsLastSibling();
+
+                        if (i != SelectionItemIndex)
+                        {
+                            UpdateRoulletteItem(i, _RouletteTestManager.GetRouletteData().Item1, _RouletteTestManager.GetRouletteData().Item2);
+                        }
                     }
 
                     if (posX > _DisableMargin + _Threshold)
@@ -239,6 +269,11 @@ namespace Roulette
                         newPosX -= _Offset * _ItemList.Count;
                         item.anchoredPosition = new Vector2(newPosX, item.anchoredPosition.y);
                         _ScrollRect.content.GetChild(_ItemList.Count - 1).SetAsFirstSibling();
+
+                        if (i != SelectionItemIndex)
+                        {
+                            UpdateRoulletteItem(i, _RouletteTestManager.GetRouletteData().Item1, _RouletteTestManager.GetRouletteData().Item2);
+                        }
                     }
                 }
 
