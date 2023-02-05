@@ -5,6 +5,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using System.Threading.Tasks;
 using DG.Tweening;
+using System;
 
 namespace UniTaskExample
 {
@@ -13,11 +14,94 @@ namespace UniTaskExample
         [SerializeField] Transform _Target;
 
         private bool isStop = false;
+        private Action doneCallback;
+        private CancellationToken ct;
 
         async private void Start()
         {
-            //await Sample1(this.GetCancellationTokenOnDestroy());
-            Sample2(this.GetCancellationTokenOnDestroy()).Forget();
+
+            var ct = this.GetCancellationTokenOnDestroy();
+        }
+
+        private async void CancleToken()
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            ResizeScale(cancellationTokenSource.Token).Forget();
+            await UniTask.Delay(5000);
+            cancellationTokenSource.Cancel();
+
+            if (cancellationTokenSource.IsCancellationRequested)
+            {
+                Debug.Log("Canceled");
+            }
+        }
+
+        private async void Test()
+        {
+            var value = await Task.Run(() => 100);
+            Debug.Log(value);
+
+            doneCallback += UniTask.Action(async () =>
+            {
+                float elapsed = 0;
+                float duration = 1;
+                while (elapsed < duration)
+                {
+                    elapsed += Time.deltaTime;
+                    //Debug.Log("elapsed = " + elapsed);
+                    await UniTask.Yield();
+                }
+            });
+
+            var Complete = await DoMove(doneCallback);
+            Debug.Log(Complete);
+        }
+
+        private async UniTask<Transform> DoMove(Action action)
+        {
+            float elapsed = 0;
+            float duration = 1;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                Vector3 value = Vector3.Lerp(Vector3.zero, Vector3.one * 50, elapsed / duration);
+                _Target.localPosition = value;
+                await UniTask.Yield();
+            }
+
+            action?.Invoke();
+            return _Target;
+        }
+
+        private async UniTask ResizeScale(CancellationToken cancellationToken)
+        {
+            int start = 0;
+            int end = 1;
+            while (true)
+            {
+                await DoScaleUp(start, end, cancellationToken);
+                start = start == 0 ? 1 : 0;
+                end = end == 1 ? 0 : 1;
+            }
+        }
+
+        private async UniTask DoScaleUp(int start, int end,CancellationToken cancellationToken)
+        {
+            float elapsed = 0;
+            float duration = 1;
+
+            while (elapsed < duration)
+            {
+                if(cancellationToken.IsCancellationRequested)
+                {
+                    Debug.Log("CancleRequseted");
+                }
+
+                elapsed += Time.deltaTime;
+                float value = Mathf.Lerp(start, end, elapsed / duration);
+                _Target.localScale = Vector3.one * value;
+                await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
+            }
         }
 
         private async UniTask Sample1(CancellationToken cancellationToken)
