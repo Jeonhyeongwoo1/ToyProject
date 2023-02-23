@@ -152,9 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 156b5bb9059b344a4925274a07706011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _simulateCount: 1000
+  _simulateCount: 600
   _racerPrefab: {fileID: 4104205131370999968, guid: d160140405c214f80a31386541c00cd6, type: 3}
   _entityPrefab: {fileID: 8678720385563574943, guid: 1cf8624fad3014ba7b210d00b5c83bc7, type: 3}
+  _map: {fileID: 1057290507}
+  _racerCount: 3
   marker: {fileID: 229691947213315601, guid: 433136b5a8c5c44c19b57cf2d2eabdac, type: 3}
 --- !u!4 &727040415
 Transform:
@@ -224,7 +226,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 8.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -248,13 +250,24 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1019890645}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: -0.6580272, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1057290507 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3422773848346832442, guid: 1cf8624fad3014ba7b210d00b5c83bc7, type: 3}
+  m_PrefabInstance: {fileID: 8678720384808369046}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d979c92262e4830bed8605977860cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1863241827
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,6 +373,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Racer
       objectReference: {fileID: 0}
+    - target: {fileID: 4104205131370999968, guid: d160140405c214f80a31386541c00cd6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4104205131370999972, guid: d160140405c214f80a31386541c00cd6, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -413,14 +430,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3649370478013349058, guid: 1cf8624fad3014ba7b210d00b5c83bc7, type: 3}
-      propertyPath: m_Constraints
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8157579234153999267, guid: 1cf8624fad3014ba7b210d00b5c83bc7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8678720385563574940, guid: 1cf8624fad3014ba7b210d00b5c83bc7, type: 3}
       propertyPath: m_RootOrder
       value: 4
