@@ -549,6 +549,7 @@ GameObject:
   - component: {fileID: 1822541131}
   - component: {fileID: 1822541135}
   - component: {fileID: 1822541136}
+  - component: {fileID: 1822541137}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -670,6 +671,27 @@ MonoBehaviour:
   moveSpeed: 10
   rotationSpeed: 5
   jumpForce: 10
+--- !u!114 &1822541137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822541130}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eae64db582b14544b6dffe686b12fb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  airVelocity: 8
+  gravity: 10
+  maxVelocityChange: 10
+  jumpHeight: 2
+  maxFallSpeed: 20
+  rotateSpeed: 25
+  cam: {fileID: 59980542}
+  checkPoint: {x: 0, y: 0, z: 0}
 --- !u!1 &2045893274
 GameObject:
   m_ObjectHideFlags: 0
